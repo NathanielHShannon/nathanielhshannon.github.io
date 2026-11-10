@@ -1,0 +1,1056 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nathaniel H. Shannon IV, PhD</title>
+<meta name="description" content="Nathaniel H. Shannon IV, PhD: researcher in data science, psychometrics, and survey methods at the University of Alabama.">
+<meta property="og:title" content="Nathaniel H. Shannon IV, PhD">
+<meta property="og:description" content="Data science, psychometrics, survey methods, and water marbling.">
+<meta property="og:image" content="img/grad-steps.jpg">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: poured-concrete slabs on an exposed grid, heavy ink seams, hard offset shadows; lichen colonizes the edges */
+:root {
+  --concrete: #d3d4c9;   /* page ground, grey with a moss bias */
+  --slab: #e8e8df;       /* raised blocks */
+  --ink: #141812;        /* text, borders, shadows */
+  --moss: #3d5c28;       /* primary accent */
+  --lichen: #b7c556;     /* highlight fills */
+  --soil: #5b4630;       /* secondary, studio section */
+  --muted: #4c5245;
+  --on-lichen: #141812;
+  --code-bg: #1a1f17;
+  --code-fg: #dfe3d2;
+  --shadow: #141812;
+  /* Studio band: the one full-bleed band, always the opposite of the page theme */
+  --band: #12150f; --b-slab: #1c2119; --b-ink: #e3e6d8; --b-muted: #a3ab96;
+  --b-moss: #93b56b; --b-stroke: #c4d36a; --b-shadow: #000000; --b-scheme: dark;
+  --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --seam: 3px;
+  --gap: clamp(12px, 2vw, 20px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --concrete: #171a15; --slab: #22271f; --ink: #e3e6d8; --moss: #93b56b; --lichen: #c4d36a;
+    --soil: #c2a47d; --muted: #a9b09c; --on-lichen: #141812; --code-bg: #0f120d; --code-fg: #dfe3d2;
+    --shadow: #000000; color-scheme: dark;
+    --band: #dcddd2; --b-slab: #efefe7; --b-ink: #141812; --b-muted: #4c5245;
+    --b-moss: #3d5c28; --b-stroke: #3d5c28; --b-shadow: #141812; --b-scheme: light;
+  }
+}
+:root[data-theme="dark"] {
+  --concrete: #171a15; --slab: #22271f; --ink: #e3e6d8; --moss: #93b56b; --lichen: #c4d36a;
+  --soil: #c2a47d; --muted: #a9b09c; --on-lichen: #141812; --code-bg: #0f120d; --code-fg: #dfe3d2;
+  --shadow: #000000; color-scheme: dark;
+  --band: #dcddd2; --b-slab: #efefe7; --b-ink: #141812; --b-muted: #4c5245;
+  --b-moss: #3d5c28; --b-stroke: #3d5c28; --b-shadow: #141812; --b-scheme: light;
+}
+
+* { box-sizing: border-box; }
+/* theme switch: circle reveal via view transitions, color fade where unsupported */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+.theme-fading, .theme-fading * { transition: background-color .5s ease, color .5s ease, border-color .5s ease, box-shadow .5s ease !important; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--concrete);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.55;
+  /* faint formwork grid, like board marks on cast concrete */
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--ink) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ink) 6%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--moss); outline-offset: 3px; }
+
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 16px; padding-block: 0 64px; }
+@media (min-width: 700px) { .wrap { padding-inline: 28px; } }
+
+.label {
+  font-family: var(--mono); font-size: 12px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+h2 {
+  font-stretch: 70%; font-weight: 900; text-transform: uppercase;
+  font-size: clamp(2.4rem, 6.5vw, 4.6rem); line-height: .88; letter-spacing: -.01em;
+}
+h3 { font-weight: 800; font-size: 1.3rem; line-height: 1.15; }
+p { margin: 0; }
+
+.slab {
+  background: var(--slab);
+  border: var(--seam) solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+  min-width: 0;
+}
+
+/* ---------- nav ---------- */
+.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  background: var(--ink); color: var(--concrete);
+  border-bottom: var(--seam) solid var(--ink);
+}
+.bar-in {
+  max-width: 1240px; margin: 0 auto; padding-inline: 16px;
+  display: flex; align-items: center; gap: 20px; height: 48px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.bar-in::-webkit-scrollbar { display: none; }
+.bar .mark { font-family: var(--display); font-weight: 900; font-stretch: 70%; font-size: 20px; letter-spacing: .02em; white-space: nowrap; }
+.bar nav { display: flex; gap: 4px; margin-left: auto; }
+.bar nav a {
+  text-decoration: none; padding: 6px 10px; white-space: nowrap;
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+}
+.bar nav a:hover { background: var(--lichen); color: var(--on-lichen); }
+.theme-btn {
+  background: none; border: 2px solid var(--concrete); color: var(--concrete);
+  font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 8px; cursor: pointer; white-space: nowrap;
+}
+.theme-btn:hover { background: var(--concrete); color: var(--ink); }
+/* phones: initials + theme on the first row, all five links across the second */
+@media (max-width: 599px) {
+  .bar-in { flex-wrap: wrap; height: auto; padding-block: 6px; gap: 6px 12px; overflow: visible; }
+  .bar .mark { order: 1; }
+  .theme-btn { order: 2; margin-left: auto; }
+  .bar nav { order: 3; width: 100%; margin-left: 0; justify-content: space-between; gap: 0; }
+  .bar nav a { padding: 6px 4px; font-size: 11px; letter-spacing: .05em; }
+  section { scroll-margin-top: 84px; }
+}
+
+/* ---------- hero ---------- */
+.hero { display: grid; gap: var(--gap); padding-block: 28px 0; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .hero { grid-template-columns: 1.65fr 1fr; } }
+/* a lichen-style cluster plot grows across the whole slab, behind the text */
+.name-slab { padding: clamp(20px, 3.5vw, 40px); display: flex; flex-direction: column; gap: 22px; position: relative; overflow: hidden; }
+.name-slab > canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; z-index: 0; }
+.name-slab > :not(canvas) { position: relative; z-index: 1; }
+/* a halo in the slab color lifts the text off the dots behind it */
+.name-slab h1, .name-slab .lede { text-shadow: 0 0 2px var(--slab), 0 0 6px var(--slab), 0 0 10px var(--slab); }
+.roles span { background: var(--slab); }
+.name-slab h1 {
+  font-stretch: 62%; font-weight: 900; text-transform: uppercase;
+  font-size: clamp(2.75rem, 8vw, 5.75rem); line-height: .85; letter-spacing: -.01em;
+}
+.name-slab h1 .suffix { color: var(--moss); }
+.name-slab h1 .ln { display: block; }
+.name-slab h1 .deg { text-transform: none; color: var(--moss); }.name-slab .lede { font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-width: 58ch; }
+.roles { display: flex; flex-wrap: wrap; gap: 8px; }
+.roles span {
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  border: 2px solid var(--ink); padding: 4px 10px;
+}
+.roles span.hi { background: var(--lichen); color: var(--on-lichen); border-color: var(--ink); }
+
+.side { display: grid; gap: var(--gap); grid-template-rows: auto 1fr; }
+.status { padding: 20px 20px 0; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.feed-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.feed-hint { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+/* the feed scrolls inside the slab; a fade at the bottom says there's more */
+.feed {
+  list-style: none; margin: 0 -20px; padding: 0 20px 28px; max-height: 260px; overflow-y: auto; flex: 1;
+  border-top: 2px solid var(--ink);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent);
+  scrollbar-width: thin; scrollbar-color: var(--moss) transparent;
+}
+.feed li { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; padding: 12px 0; border-bottom: 2px dashed color-mix(in srgb, var(--ink) 25%, transparent); }
+.feed time { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--moss); font-variant-numeric: tabular-nums; align-self: center; }
+.feed .tag { justify-self: start; font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border: 2px solid var(--ink); padding: 0 6px; }
+.feed li:first-child .tag { background: var(--lichen); color: var(--on-lichen); }
+.feed p { grid-column: 1 / -1; font-size: 14px; line-height: 1.4; }
+.coords { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: .04em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.reloc-line { display: block; margin-top: 6px; font-weight: 400; font-size: 14px; font-style: italic; color: var(--muted); }
+.reloc-chip { font-style: normal; font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; background: var(--lichen); color: var(--on-lichen); border: 2px solid var(--ink); padding: 2px 8px; box-shadow: 3px 3px 0 var(--shadow); }
+.pulse { display: inline-block; width: 10px; height: 10px; background: var(--moss); margin-right: 8px; vertical-align: 1px; animation: blink 2.4s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+
+.portrait { position: relative; margin: 0; overflow: hidden; background: var(--moss); aspect-ratio: 1 / 1; max-width: 100%; max-height: 380px; width: 100%; }
+@media (min-width: 900px) { .portrait { aspect-ratio: auto; height: 350px; } }
+.portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 45% 60%; display: block; }
+.portrait .cap {
+  position: absolute; left: 12px; bottom: 12px; background: var(--ink); color: var(--concrete);
+  padding: 4px 8px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+}
+
+/* ---------- sections ---------- */
+section { padding-top: 88px; scroll-margin-top: 48px; }
+.sec-head { display: grid; gap: 14px; margin-bottom: 28px; grid-template-columns: 1fr; align-items: end; }
+@media (min-width: 900px) { .sec-head { grid-template-columns: 1fr 1fr; } }
+.sec-head .label { color: var(--moss); display: block; margin-bottom: 10px; }
+.sec-head p { max-width: 56ch; color: var(--muted); }
+
+/* Studio: the one dark band, bled to the viewport edges without widening the page */
+#studio.band {
+  --concrete: var(--band); --slab: var(--b-slab); --ink: var(--b-ink); --muted: var(--b-muted);
+  --moss: var(--b-moss); --shadow: var(--b-shadow);
+  background: var(--band); color: var(--ink); color-scheme: var(--b-scheme);
+  margin-top: 88px; padding-block: 72px;
+  box-shadow: 0 0 0 100vmax var(--band); clip-path: inset(0 -100vmax);
+}
+#studio .sec-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 36px; }
+#studio .sec-head h2 {
+  font-size: clamp(3rem, 10vw, 7.5rem); color: transparent;
+  -webkit-text-stroke: 2px var(--b-stroke); text-stroke: 2px var(--b-stroke);
+}
+#studio .sec-head p { font-size: 1.05rem; }
+
+/* ---------- work timeline ---------- */
+.work { display: grid; gap: var(--gap); grid-template-columns: minmax(0, 1fr); }
+.timeline li > div { min-width: 0; overflow-wrap: anywhere; }
+@media (min-width: 900px) { .work { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } }
+.timeline { padding: 0; list-style: none; margin: 0; }
+.timeline li {
+  display: grid; grid-template-columns: 1fr; gap: 6px; padding: 18px 20px;
+  border-bottom: 2px solid color-mix(in srgb, var(--ink) 25%, transparent);
+}
+.timeline li:last-child { border-bottom: 0; }
+@media (min-width: 640px) { .timeline li { grid-template-columns: 150px 1fr; gap: 20px; } }
+/* side by side, the entries share the column's full height so it ends flush with the right-hand boxes */
+@media (min-width: 900px) {
+  .timeline { display: flex; flex-direction: column; }
+  .timeline li { flex: 1; align-content: center; }
+}
+.when { font-family: var(--mono); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--moss); padding-top: 2px; }
+.timeline .org { font-size: 14px; color: var(--muted); }
+.timeline p.detail { margin-top: 6px; font-size: 15px; max-width: 68ch; }
+.timeline p.result { margin-top: 8px; font-family: var(--mono); font-size: 12.5px; font-weight: 600; color: var(--moss); line-height: 1.4; }
+.timeline p.result::before { content: "→ "; }
+.now-tag { display: inline-block; margin-left: 8px; background: var(--lichen); color: var(--on-lichen); font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; padding: 1px 6px; vertical-align: 3px; text-transform: uppercase; }
+
+/* right column: the last slab grows so the column ends flush with the timeline */
+.stack { display: flex; flex-direction: column; gap: var(--gap); }
+.place { padding: 20px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 8px; flex: 1; }
+.place .label { color: var(--moss); margin-bottom: auto; padding-bottom: 12px; }
+.place-city { font-family: var(--display); font-weight: 900; font-stretch: 70%; text-transform: uppercase; font-size: 2rem; line-height: 1; }
+.place .reloc-chip { margin-top: 6px; }
+.place .reloc-line { margin-top: 0; }
+.edu { padding: 20px; display: grid; gap: 10px; overflow: hidden; }
+.edu .degree { font-family: var(--display); font-weight: 900; font-stretch: 70%; line-height: 1; text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+.edu .deg-type { font-size: 2.6rem; text-transform: none; }
+.honors { list-style: none; margin: 4px 0 0; padding: 10px 0 0; border-top: 2px dashed color-mix(in srgb, var(--ink) 25%, transparent); display: grid; gap: 8px; }
+.honors li { position: relative; padding-left: 16px; font-size: 14px; line-height: 1.35; }
+.honors li::before { content: ""; position: absolute; left: 0; top: .45em; width: 7px; height: 7px; background: var(--moss); }
+.edu .field { display: flex; flex-direction: column; gap: 2px; border-left: 6px solid var(--moss); padding-left: 12px; }
+.edu .f-sm { font-size: 1.55rem; line-height: .9; color: var(--moss); }
+.edu .f-lg { font-size: 2.6rem; line-height: .88; letter-spacing: -.01em; }
+.edu em { font-style: normal; font-weight: 600; }
+.tools { padding: 20px; display: grid; gap: 14px; }
+.tool-group { display: grid; gap: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips span { border: 2px solid var(--ink); padding: 2px 8px; font-size: 13px; font-weight: 600; }
+.chips span.hi { background: var(--lichen); color: var(--on-lichen); }
+
+/* ---------- projects ---------- */
+.projects { display: grid; gap: var(--gap); grid-template-columns: 1fr; }
+@media (min-width: 760px) { .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .projects { grid-template-columns: repeat(6, minmax(0, 1fr)); } .projects .p-full { grid-column: span 6; } .projects .p-half { grid-column: span 3; } }
+@media (min-width: 760px) { .projects .case { grid-column: 1 / -1; } }
+
+/* featured case study: text left, funnel right */
+.case-body { display: grid; gap: 28px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .case-body { grid-template-columns: 1.2fr 1fr; align-items: start; } }
+.case-text { display: grid; gap: 12px; min-width: 0; }
+.case-text h3 { font-stretch: 70%; font-weight: 900; text-transform: uppercase; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: .95; }
+.funnel { margin: 0; padding: 16px; border: var(--seam) solid var(--ink); background: var(--concrete); display: grid; gap: 12px; min-width: 0; }
+.funnel figcaption { color: var(--moss); }
+.funnel ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.funnel li { display: grid; grid-template-columns: 3.2ch 1fr; gap: 2px 10px; align-items: baseline; }
+.f-n { font-family: var(--display); font-weight: 900; font-stretch: 70%; font-size: 1.6rem; line-height: 1; font-variant-numeric: tabular-nums; text-align: right; }
+.f-label { font-size: 14px; }
+.f-track { grid-column: 2; height: 14px; background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.f-bar { display: block; height: 100%; width: var(--w); background: var(--moss); border-radius: 0 4px 4px 0; transform-origin: left; }
+.funnel li:hover .f-bar { background: var(--lichen); outline: 2px solid var(--ink); outline-offset: -2px; }
+.f-note { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+/* MOORES: county map left, headline stat + careers right */
+@media (min-width: 900px) { .moores-body { grid-template-columns: auto minmax(0, 1fr); } }
+.moores-stats { display: grid; gap: 14px; grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 640px) { .moores-stats { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); } }
+.moores-stats .hero-stat { grid-template-columns: 1fr; gap: 8px; align-content: start; }
+.map-fig { margin: 0; display: grid; gap: 10px; justify-items: start; min-width: 0; }
+.map-fig figcaption { color: var(--moss); }
+.al-map { width: 100%; max-width: 190px; height: auto; display: block; }
+.map-fig { max-width: 220px; }
+.al-map path { stroke: color-mix(in srgb, var(--ink) 45%, transparent); stroke-width: .6; stroke-linejoin: round; }
+.al-map path:hover { stroke: var(--ink); stroke-width: 2; }
+.al-map .b0, .map-legend .b0 { fill: var(--slab); background: var(--slab); }
+.al-map .b1, .map-legend .b1 { fill: color-mix(in srgb, var(--moss) 18%, var(--slab)); background: color-mix(in srgb, var(--moss) 18%, var(--slab)); }
+.al-map .b2, .map-legend .b2 { fill: color-mix(in srgb, var(--moss) 38%, var(--slab)); background: color-mix(in srgb, var(--moss) 38%, var(--slab)); }
+.al-map .b3, .map-legend .b3 { fill: color-mix(in srgb, var(--moss) 60%, var(--slab)); background: color-mix(in srgb, var(--moss) 60%, var(--slab)); }
+.al-map .b4, .map-legend .b4 { fill: color-mix(in srgb, var(--moss) 82%, var(--slab)); background: color-mix(in srgb, var(--moss) 82%, var(--slab)); }
+.al-map .b5, .map-legend .b5 { fill: color-mix(in srgb, var(--moss) 75%, var(--ink)); background: color-mix(in srgb, var(--moss) 75%, var(--ink)); }
+.map-legend { display: flex; flex-wrap: wrap; gap: 4px 10px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.map-legend span { display: inline-flex; align-items: center; gap: 4px; }
+.map-legend i { display: inline-block; width: 14px; height: 14px; border: 1px solid color-mix(in srgb, var(--ink) 45%, transparent); }
+.hero-stat { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; padding: 16px; background: var(--lichen); color: var(--on-lichen); border: var(--seam) solid var(--ink); box-shadow: 4px 4px 0 var(--shadow); }
+.hero-n { font-family: var(--display); font-weight: 900; font-stretch: 70%; font-size: clamp(3.4rem, 7vw, 4.8rem); line-height: .85; font-variant-numeric: tabular-nums; }
+.hero-stat p { font-size: 15px; }
+.careers { background: transparent; gap: 8px; }
+.careers ol { gap: 6px; }
+.careers .f-n { font-size: 1.25rem; }
+.careers .f-track { height: 10px; }
+.moores-body .case-text { gap: 10px; }
+.careers .label { color: var(--moss); }
+.proj { display: flex; flex-direction: column; }
+.proj-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: var(--seam) solid var(--ink); }
+.state { font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px; border: 2px solid var(--ink); white-space: nowrap; }
+.state.live { background: var(--lichen); color: var(--on-lichen); }
+.proj-body { padding: 18px 16px 20px; display: grid; gap: 12px; flex: 1; align-content: start; }
+.proj-body p { font-size: 15px; }
+.proj .finding { border-left: 6px solid var(--moss); padding-left: 12px; font-weight: 600; }
+.proj-foot { padding: 10px 16px; border-top: 2px dashed color-mix(in srgb, var(--ink) 40%, transparent); font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+/* ---------- code ---------- */
+.code-wrap { display: grid; grid-template-columns: 1fr; gap: 0; }
+.tabs, .rp-tabs { display: flex; flex-wrap: wrap; border-bottom: var(--seam) solid var(--ink); }
+.tabs button, .rp-tabs button {
+  appearance: none; border: 0; border-right: var(--seam) solid var(--ink); background: transparent; color: var(--ink);
+  font-family: var(--mono); font-size: 13px; font-weight: 600; padding: 12px 16px; cursor: pointer;
+}
+.tabs button[aria-selected="true"], .rp-tabs button[aria-selected="true"] { background: var(--ink); color: var(--slab); }
+.tabs button:hover:not([aria-selected="true"]), .rp-tabs button:hover:not([aria-selected="true"]) { background: var(--lichen); color: var(--on-lichen); }
+/* both panels share one grid cell, so the card is always as tall as the taller panel */
+.rp-stack { display: grid; flex: 1; }
+.rp-panel { grid-area: 1 / 1; display: flex; flex-direction: column; min-width: 0; }
+.rp-panel .proj-body { flex: 1; }
+.rp-panel[aria-hidden="true"] { visibility: hidden; }
+.code-note { padding: 14px 18px; font-size: 14px; color: var(--muted); border-bottom: var(--seam) solid var(--ink); }
+.code-note strong { color: var(--ink); }
+pre.code {
+  margin: 0; background: var(--code-bg); color: var(--code-fg); padding: 20px; overflow-x: auto;
+  font-family: var(--mono); font-size: 13.5px; line-height: 1.65; tab-size: 2; max-height: 520px;
+}
+pre.code code { font-family: inherit; }
+.token.comment { color: #8c977d; font-style: italic; }
+.token.string { color: #c9d775; }
+.token.keyword, .token.boolean { color: #e3a86a; }
+.token.function { color: #9fd0a6; }
+.token.number { color: #e8c76d; }
+.token.operator, .token.punctuation { color: #aeb5a0; }
+.code-foot { display: flex; flex-wrap: wrap; gap: 10px 20px; padding: 12px 18px; font-family: var(--mono); font-size: 12px; justify-content: space-between; }
+
+/* ---------- studio ---------- */
+.sub-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; border-bottom: var(--seam) solid var(--ink); padding-bottom: 10px; }
+.sub-head h3 { font-stretch: 70%; font-weight: 900; text-transform: uppercase; font-size: 2rem; }
+
+/* One compact strip of square thumbnails, 2-up on phones. Tap opens the full sheet. */
+.gallery { display: grid; gap: var(--gap); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 760px) { .gallery { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.frame { margin: 0; display: flex; flex-direction: column; min-width: 0; }
+.shot { appearance: none; border: 0; padding: 0; margin: 0; background: var(--ink); cursor: zoom-in; display: block; position: relative; aspect-ratio: 1 / 1; width: 100%; max-width: 100%; overflow: hidden; border-bottom: var(--seam) solid var(--ink); }.shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
+.shot:hover img { transform: scale(1.03); }
+@media (prefers-reduced-motion: reduce) { .shot img { transition: none; } .shot:hover img { transform: none; } }
+.frame figcaption { padding: 10px 12px; display: grid; gap: 2px; font-size: 13px; }
+.frame figcaption b { font-size: 15px; }
+.frame figcaption span { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.fill { border-bottom: 1px dashed currentColor; }
+a.out { text-decoration: none; border-bottom: 2px solid var(--moss); padding-bottom: 1px; }
+a.out:hover { background: var(--lichen); color: var(--on-lichen); border-bottom-color: var(--ink); }
+
+#lightbox { border: var(--seam) solid var(--ink); padding: 0; background: var(--slab); color: var(--ink); max-width: min(92vw, 1100px); max-height: 92vh; box-shadow: 8px 8px 0 var(--shadow); }
+#lightbox::backdrop { background: color-mix(in srgb, #0d100b 82%, transparent); }
+#lightbox img { display: block; max-width: 100%; max-height: calc(92vh - 56px); object-fit: contain; margin: 0 auto; }
+#lbClose { margin: 10px 12px; }
+
+/* ---------- contact ---------- */
+.contact { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .contact { grid-template-columns: 1.4fr 1fr; } }
+.contact .big { padding: clamp(20px, 4vw, 44px); background: var(--moss); color: var(--slab); display: grid; gap: 18px; align-content: start; border-bottom: var(--seam) solid var(--ink); }
+@media (min-width: 900px) { .contact .big { border-bottom: 0; border-right: var(--seam) solid var(--ink); } }
+.contact .big h2 { color: var(--slab); }
+.contact .big p { max-width: 50ch; }
+/* contact: the handle stays put; only the platform around it changes */
+.handle { padding: clamp(20px, 4vw, 40px); display: grid; gap: 16px; align-content: center; min-width: 0; }
+.h-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.h-tabs button { appearance: none; border: 2px solid var(--ink); background: var(--slab); color: var(--ink); font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; cursor: pointer; }
+.h-tabs button[aria-selected="true"] { background: var(--ink); color: var(--slab); }
+.h-tabs button:hover:not([aria-selected="true"]) { background: var(--lichen); color: var(--on-lichen); }
+.h-addr { margin: 0; display: grid; gap: 4px; min-width: 0; }
+.h-pre, .h-suf { font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--moss); min-height: 1.4em; transition: opacity .25s ease, transform .25s ease; }
+.h-name { font-family: var(--display); font-weight: 900; font-stretch: 62%; font-size: clamp(1.9rem, 3.6vw, 3rem); line-height: .9; letter-spacing: -.01em; overflow-wrap: anywhere; }
+.h-addr.swap .h-pre { opacity: 0; transform: translateX(-8px); }
+.h-addr.swap .h-suf { opacity: 0; transform: translateX(8px); }
+@media (prefers-reduced-motion: reduce) { .h-pre, .h-suf { transition: none; } }
+.h-act { display: flex; gap: 12px; align-items: center; min-height: 28px; }
+.copy, .lb-close { appearance: none; border: 2px solid var(--ink); background: var(--slab); color: var(--ink); font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; cursor: pointer; }
+.copy:hover, .lb-close:hover { background: var(--lichen); color: var(--on-lichen); }
+
+footer { margin-top: 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-family: var(--mono); font-size: 12px; color: var(--muted); border-top: var(--seam) solid var(--ink); padding-top: 14px; }
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="bar-in">
+    <span class="mark">N.H.S. IV</span>
+    <nav aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#projects">Projects</a>
+      <a href="#code">Code</a>
+      <a href="#studio">Studio</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle light and dark theme">Theme</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="slab name-slab">
+      <canvas id="clusters" aria-hidden="true"></canvas>
+      <h1><span class="ln">Nathaniel</span> <span class="ln">H.</span> <span class="ln">Shannon</span> <span class="ln">IV, <span class="deg">PhD</span></span></h1>
+      <p class="lede">I'm a researcher who measures what's hard to pin down: why people avoid clinical trials, which students may not graduate, and what a rural doctor means for a town's economy. I build predictive and causal models on messy, real-world data, check it for bias first, and turn the results into clear recommendations. Off the clock, I make water-marbled paintings.</p>
+      <div class="roles">
+        <span class="hi">Data science</span>
+        <span>Psychometrics</span>
+        <span>Survey methods</span>
+        <span>Water marbling</span>
+      </div>
+    </div>
+
+    <div class="side">
+      <figure class="slab portrait">
+        <img src="img/grad-steps.jpg" alt="Nathaniel smiling in a doctoral tam and hood, leaning on a stone railing on the steps of a University of Alabama building" width="1050" height="1400">
+        <figcaption class="cap">University of Alabama · Tuscaloosa</figcaption>
+      </figure>
+      <div class="slab status">
+        <div class="feed-head"><span class="label"><span class="pulse" aria-hidden="true"></span>Latest</span><span class="feed-hint" aria-hidden="true">Scroll ↓</span></div>
+        <!--
+          UPDATES FEED: newest first.
+          To add one, copy an <li> block, paste it at the top of the list, and change the date, tag, and text.
+          Tags in use: Work, Research, Teaching, Service, Learning, Milestone, Studio, Life
+        -->
+        <ol class="feed" tabindex="0" aria-label="Recent updates">
+          <li><time datetime="2026-11-12">Nov 12, 2026</time><span class="tag">Research</span><p>Presenting three posters at the University of Alabama's Research and Scholarly Activity Day.</p></li>
+          <li><time datetime="2026-11-06">Nov 6, 2026</time><span class="tag">Research</span><p>Two papers from my dissertation were accepted to AERA 2027 in Toronto: a causal mediation study of parental involvement and STEM achievement, and a test of whether parental involvement measures work the same across race and income. See you there!</p></li>
+          <li><time datetime="2026-10">Oct 2026</time><span class="tag">Life</span><p>Launched this site, including a gallery of my water marbling.</p></li>
+          <li><time datetime="2026-04">Apr 2026</time><span class="tag">Research</span><p>Presented our causal machine learning study of social determinants of health and late-life depression on a UA panel about causal methods in population health.</p></li>
+          <li><time datetime="2026-03">Mar 2026</time><span class="tag">Research</span><p>Presented two posters at the Southeast Regional Clinical and Translational Science Conference, including my validation of a Health Belief Model measure for cancer clinical trial participation.</p></li>
+          <li><time datetime="2026-03">Mar 2026</time><span class="tag">Learning</span><p>Earned a certificate in navigating generative AI for higher education faculty from the University of Tennessee.</p></li>
+          <li><time datetime="2026-01">Jan 2026</time><span class="tag">Work</span><p>Started as a Postdoctoral Fellow in Community Medicine &amp; Population Health at the University of Alabama.</p></li>
+          <li><time datetime="2025">2025</time><span class="tag">Milestone</span><p>Earned my PhD in Educational Psychology from the University of Alabama.</p></li>
+          <li><time datetime="2025-03">Mar 2025</time><span class="tag">Research</span><p>Presented two posters at the Southeast Regional Clinical and Translational Science Conference, including my machine learning model of depressive symptoms in older adults.</p></li>
+          <li><time datetime="2024-11">Nov 2024</time><span class="tag">Research</span><p>Presented a poster with Dr. Shabnam Naher at UA's Research and Scholarly Activity Day on how age and health concerns shaped behavior during the pandemic.</p></li>
+          <li><time datetime="2024-10">Oct 2024</time><span class="tag">Teaching</span><p>Gave a guest lecture on multiple regression for UA's graduate biostatistics course.</p></li>
+          <li><time datetime="2024">2024</time><span class="tag">Service</span><p>Started reviewing manuscripts for Frontiers in Public Health and Frontiers in Education.</p></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="sec-head">
+      <div><span class="label">Work</span><h2>Questions I've chased</h2></div>
+      <p>More than a decade turning messy real-world data into decisions, from 250,000-person consumer panels at Nielsen to federal health and education surveys. My edge is measurement. I check that the data means what we think it does before I build a model on it.</p>
+    </div>
+    <div class="work">
+      <ol class="slab timeline" reversed>
+        <li><span class="when">2026 – now</span><div><h3>Postdoctoral Fellow <span class="now-tag">Now</span></h3><div class="org">University of Alabama, Dept. of Community Medicine &amp; Population Health</div><p class="detail">Right now I'm asking whether money actually changes depression risk in older adults, and for whom, using causal machine learning on national survey data. I'm also helping UA's Office of Rural Programs see where its doctors end up.</p><p class="result">Income's effect depended on education and physical function.</p></div></li>
+        <li><span class="when">2023 – 2025</span><div><h3>Research Methodologist</h3><div class="org">UA College of Community Health Sciences</div><p class="detail">We wanted to know why so many Black Alabamians stay out of clinical trials, so I wrote the survey, tested that it measured what it should, and collected the answers in person across the state.</p><p class="result">Drafted the grant proposal that won $150K in funding from Exact Sciences.</p></div></li>
+        <li><span class="when">2019 – 2023</span><div><h3>Quantitative Methodologist</h3><div class="org">UA College of Education</div><p class="detail">Could a model spot high school students at risk of not graduating early enough to help? I put machine learning to that test with national data on more than 25,000 students.</p><p class="result">Benchmarked four model types and kept the one that did best on held-out data.</p></div></li>
+        <li><span class="when">2016 – 2019</span><div><h3>Graduate Research Assistant</h3><div class="org">University of Alabama · Cognitive neuroscience lab</div><p class="detail">I traded industry for the lab to help answer a fun question with EEG: do hand gestures make math easier on the brain? (They do.)</p><p class="result">Published in <i>Neuroscience Letters</i>, 2019.</p></div></li>
+        <li><span class="when">2013 – 2016</span><div><h3>Market &amp; Behavioral Researcher</h3><div class="org">Nielsen · Chicago</div><p class="detail">I spent three years figuring out why shoppers pick what they pick, from brain-wave studies in Japan and Canada to the purchase histories of more than 250,000 Walgreens customers.</p><p class="result">Surfaced $5M+ in product opportunities for Walgreens.</p></div></li>
+      </ol>
+
+      <div class="stack">
+        <div class="slab edu">
+          <span class="label">Education</span>
+          <div class="degree"><span class="deg-type">PhD</span><span class="field"><span class="f-sm">Educational</span><span class="f-lg">Psychology</span></span></div>
+          <p>The University of Alabama</p>
+          <p>Dissertation: <em>Understanding and Measuring Parental Involvement: Causal Pathways and Cross-Group Validity</em></p>
+          <ul class="honors" aria-label="Honors">
+            <li>Ronald E. McNair Scholar</li>
+            <li>NSF Graduate Research Fellowship, Honorable Mention</li>
+          </ul>
+        </div>
+        <div class="slab tools">
+          <span class="label">Toolkit</span>
+          <div class="tool-group"><span class="label" style="color:var(--moss)">Data science &amp; ML</span><div class="chips"><span class="hi">Random forests</span><span class="hi">SVM</span><span class="hi">Neural networks</span><span class="hi">Logistic regression</span><span class="hi">k-means clustering</span><span class="hi">Out-of-sample validation</span><span class="hi">Data pipelines</span><span class="hi">Dashboards</span><span class="hi">LLM &amp; agentic workflows</span></div></div>
+          <div class="tool-group"><span class="label" style="color:var(--muted)">Inference</span><div class="chips"><span>Causal forests</span><span>Causal mediation</span><span>Multilevel models</span><span>Survey sampling</span></div></div>
+          <div class="tool-group"><span class="label" style="color:var(--muted)">Measurement</span><div class="chips"><span>IRT</span><span>Rasch</span><span>DIF</span><span>Measurement invariance</span><span>CFA / EFA</span></div></div>
+          <div class="tool-group"><span class="label" style="color:var(--muted)">Code &amp; tools</span><div class="chips"><span>R</span><span>Python</span><span>SQL</span><span>Shiny</span><span>Quarto</span><span>R Markdown</span><span>Tableau</span><span>SPSS</span><span>ArcGIS</span></div></div>
+        </div>
+        <div class="slab place">
+          <span class="label">Based in</span>
+          <div class="place-city">Tuscaloosa, AL</div>
+          <span class="coords">33.21° N · 87.57° W</span>
+          <span class="reloc-chip">Open to relocating <span aria-hidden="true">↗</span></span>
+          <span class="reloc-line">Rooted here, ready to transplant.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="sec-head">
+      <div><span class="label">Projects</span><h2>On the bench</h2></div>
+      <p>What I'm working on now and what I've finished recently. Each card names the method and the finding, including the ones that went against the hypothesis.</p>
+    </div>
+    <div class="projects">
+      <article class="slab proj p-full">
+        <div class="proj-top"><span class="label">Health and Retirement Study</span><span class="state live">In progress</span></div>
+        <div class="proj-body">
+          <h3>Does income change depression risk in older adults?</h3>
+          <p>A lagged causal forest on NIH-funded HRS data (n=5,106, Wave 14 to 15) testing whether household income causally affects depression risk.</p>
+          <p class="finding">No significant average effect, but significant heterogeneity by education and functional status, confirmed with a best linear projection.</p>
+        </div>
+        <div class="proj-foot">R · grf · causal forest · Shannon, Choi &amp; Hites</div>
+      </article>
+
+      <article class="slab proj p-full case rural">
+        <div class="proj-top"><span class="label">Office of Rural Programs · University of Alabama</span><span class="state live">In progress</span></div>
+        <div class="rp-tabs" role="tablist" aria-label="Rural programs">
+          <button type="button" role="tab" id="rp-tab-0" aria-selected="true" aria-controls="rp-panel-0">Rural Medical Scholars</button>
+          <button type="button" role="tab" id="rp-tab-1" aria-selected="false" aria-controls="rp-panel-1" tabindex="-1">MOORES Scholars</button>
+        </div>
+        <div class="rp-stack">
+        <div class="rp-panel" id="rp-panel-0" role="tabpanel" aria-labelledby="rp-tab-0">
+        <div class="proj-body case-body">
+          <div class="case-text">
+            <h3>30 Years of Rural Medical Education</h3>
+            <p>Since 1996, the Rural Medical Scholars Program has trained future physicians with one goal: more doctors practicing in rural Alabama. Thirty years of outcomes lived in a hand-kept spreadsheet, with the same status, specialty, or school written a dozen different ways.</p>
+            <p>Dr. Shabnam Naher and I built a reproducible R Markdown report that cleans those records, places every scholar on the path from entry to practice, and flags any value it doesn't recognize. When new outcomes come in, the whole report updates itself.</p>
+            <p class="finding">87 of the program's 295 scholars now practice in rural Alabama, and most of them are family doctors. But newer graduates are less likely to end up in rural towns than earlier ones. For every 10 years later a scholar started, the odds of practicing in a rural town dropped by about 43% (logistic regression, p = .03). That gives the program an early warning it can act on.</p>
+          </div>
+          <figure class="funnel" aria-labelledby="funnelTitle">
+            <figcaption id="funnelTitle" class="label">From scholar to rural doctor</figcaption>
+            <ol>
+              <li title="295 scholars entered the program, 1996–2025 cohorts"><span class="f-n">295</span><span class="f-label">entered the program</span><span class="f-track"><span class="f-bar" style="--w:100%"></span></span></li>
+              <li title="199 of 295 (67%) completed the program or are in residency"><span class="f-n">199</span><span class="f-label">completed or in residency</span><span class="f-track"><span class="f-bar" style="--w:67.5%"></span></span></li>
+              <li title="87 of 295 (29%) practice in a rural Alabama town"><span class="f-n">87</span><span class="f-label">practice in rural Alabama</span><span class="f-track"><span class="f-bar" style="--w:29.5%"></span></span></li>
+              <li title="57 of 295 (19%) practice rural family medicine"><span class="f-n">57</span><span class="f-label">in rural family medicine</span><span class="f-track"><span class="f-bar" style="--w:19.3%"></span></span></li>
+            </ol>
+            <p class="f-note">Each bar is drawn to scale against all 295 scholars. "Rural" means a town classified as rural (R-1 to R-3).</p>
+          </figure>
+        </div>
+        <div class="proj-foot">R · R Markdown · dplyr · ggplot2 · plotly · Cochran-Armitage · logistic regression</div>
+        </div>
+        <div class="rp-panel" id="rp-panel-1" role="tabpanel" aria-labelledby="rp-tab-1" aria-hidden="true" inert>
+        <div class="proj-body case-body moores-body">
+          <figure class="map-fig">
+            <figcaption id="mapTitle" class="label">Where scholars come from</figcaption>
+            <svg class="al-map" viewBox="0 0 360 565" role="img" aria-labelledby="mapTitle"><path class="b3" d="M197.8,314.5L195.1,313.9L193.9,312.5L192.8,311.2L190.6,310.5L189.5,311.2L187.3,309.9L186.7,307.9L186.1,306.6L185,306.6L183.3,307.2L182.8,309.9L181.7,312.5L180.6,312.5L177.8,311.2L177.2,308.5L175,307.9L173.9,308.5L172.2,307.9L171.1,308.5L171.6,310.5L172.2,312.5L171.1,315.2L171.1,317.2L169.4,317.8L168.8,317.2L167.7,315.8L167.7,314.5L167.7,312.5L166.6,309.9L166.1,308.5L166.1,305.9L165.5,304.6L163.8,303.9L163.3,301.9L161.6,297.9L159.9,294.6L159.4,291.3L158.8,286.6L158.3,283.3L158.3,281.3L158.3,278L178.9,278L178.9,272.7L206.2,273.4L206.2,306.6L204.5,307.2L202.9,307.9L201.8,309.9L200.1,311.2L197.8,314.5Z"><title>Autauga County: 6</title></path><path class="b2" d="M58.4,453.8L59,453.2L60.1,453.2L61.8,451.9L62.9,451.9L64,453.2L64.6,451.9L64.6,449.9L65.7,449.9L66.2,449.2L65.7,448.5L64.6,447.9L65.1,446.5L67.9,446.5L68.5,445.2L66.8,442.6L68.5,442.6L69,441.9L69,440.6L70.1,438.6L71.8,438.6L72.9,438.6L73.5,437.9L71.8,435.3L71.8,434.6L72.4,434.6L74.6,435.3L75.2,435.9L79.6,435.3L81.3,435.3L83,437.3L86.3,439.9L90.2,441.9L90.8,469.8L90.8,475.7L90.2,478.4L88,482.4L87.4,485L88,487L90.2,489L96.3,497L101.9,502.9L104.7,504.3L105.8,505.6L108.6,508.2L109.7,511.6L109.7,514.9L107.5,518.9L104.7,523.5L104.2,525.5L104.7,527.5L106.4,529.5L110.8,533.5L111.4,534.8L110.3,536.8L108.6,536.8L106.9,537.4L106.9,538.1L105.8,540.1L104.7,541.4L102.5,543.4L98.6,543.4L98,548.1L94.1,548.7L92.4,548.7L91.9,550.7L91.9,553.4L84.1,554.7L70.7,556.7L64,558L60.1,558L56.8,558L51.7,558.7L50.6,557.3L51.2,555.4L52.8,554.7L56.8,554.7L61.8,554L69,553.4L71.8,553.4L71.8,548.7L70.1,546.7L67.9,542.1L66.8,540.1L64.6,538.8L61.8,537.4L59.5,534.8L59,529.5L57.9,525.5L60.1,521.5L60.7,518.9L59.5,514.9L60.1,508.9L57.3,505.6L53.4,495L51.7,494.3L55.1,493L57.9,491.7L57.9,490.3L55.6,488.3L54.5,486.4L54,484.4L55.1,483L56.8,481L57.3,479.7L59,479.7L60.7,477.7L56.8,473.1L57.3,469.8L57.3,466.4L57.9,463.8L57.9,462.5L56.8,461.1L56.8,460.5L56.8,457.2L58.4,453.8Z"><title>Baldwin County: 3</title></path><path class="b2" d="M302.7,399.4L272,399.4L272.6,395.5L273.7,394.1L274.8,390.2L275.9,386.2L276.5,384.2L279.3,382.9L279.8,379.5L279.8,376.2L278.7,373.6L279.3,369.6L279.3,368.9L281.5,366.3L284.3,361L286,359.6L286.5,355.6L287.6,354.3L288.8,353.7L294.3,353.7L294.3,353L297.1,353L297.7,351L298.8,351L298.8,353L302.7,351.7L302.1,337.7L318.9,337.1L321.1,339.7L319.4,340.4L319.4,341.7L322.2,341.7L327.2,347L332.8,347L333.4,346.4L334.5,346.4L334.5,347L338.4,347.7L338.4,351.7L338.4,355.6L336.7,359.6L333.9,362.3L330.6,370.2L331.1,379.5L329.5,379.5L326.7,382.2L325,382.9L323.3,384.8L322.8,388.2L302.7,388.2L302.7,399.4Z"><title>Barbour County: 4</title></path><path class="b1" d="M147.7,258.1L119.8,257.5L119.8,253.5L109.2,253.5L109.7,238.9L120.3,237.6L120.3,229.6L121.4,226.3L124.8,223L125.9,223L131.5,222.3L132,220.3L132,217.6L132.6,214.3L135.4,213L135.9,211L137.1,211L138.7,211L139.3,212.3L142.1,211L143.8,210.3L147.1,210.3L147.1,212.3L146.5,214.3L147.1,215.7L147.1,219L147.1,220.3L148.2,221L151,221L151.6,222.3L151,225.6L152.7,227.6L152.7,228.9L156,232.2L158.3,232.9L159.4,233.6L159.4,234.2L161,234.9L161.6,257.5L147.7,258.1Z"><title>Bibb County: 2</title></path><path class="b0" d="M153.8,139.4L155.5,137.4L156.6,137.4L158.3,137.4L158.3,136L158.3,133.4L159.9,132.1L160.5,132.1L161.6,130.7L163.8,130.7L164.9,130.1L164.9,129.4L166.1,128.7L167.7,129.4L171.6,126.8L172.7,124.1L174.4,122.8L176.1,122.1L177.2,119.5L178.9,118.8L180.6,114.8L180.6,112.2L183.9,112.2L185,109.5L186.1,108.8L190,106.8L190,105.5L193.4,102.2L193.9,100.9L193.9,97.6L195.6,96.2L196.2,94.9L197.3,93.6L199,92.3L200.1,92.3L202.9,92.3L209.6,101.5L214.6,107.5L215.7,109.5L216.8,110.2L217.4,112.2L216.2,113.5L215.7,116.1L215.1,121.4L215.1,122.8L212.3,127.4L211.8,128.7L212.9,128.7L214.6,129.4L212.9,132.1L212.9,134.7L211.8,136L209.6,137.4L205.1,142.7L203.4,142.7L201.2,143.3L200.1,145.3L195.6,145.3L191.7,145.3L191.7,149.3L185.6,149.3L175.5,140.7L160.5,140L158.3,144L155.5,145.3L154.9,140.7L153.8,140.7L153.8,140L153.8,139.4Z"><title>Blount County: 0</title></path><path class="b0" d="M279.3,368.9L267,367.6L267,358.3L259.2,357.6L258.1,354.3L257.5,354.3L257,348.4L255.3,348.4L254.7,347.7L253.1,347L252.5,346.4L251.4,346.4L251.4,347L249.2,347.7L249.2,348.4L248,348.4L248,347.7L247.5,348.4L247.5,324.5L248,324.5L248,322.5L255.3,322.5L256.4,321.1L256.4,319.8L257.5,319.8L259.2,320.5L260.3,325.8L261.4,327.1L301.6,327.1L302.1,337.7L302.7,351.7L298.8,353L298.8,351L297.7,351L297.1,353L294.3,353L294.3,353.7L288.8,353.7L287.6,354.3L286.5,355.6L286,359.6L284.3,361L281.5,366.3L279.3,368.9Z"><title>Bullock County: 0</title></path><path class="b1" d="M163.3,359.6L202.9,359.6L202.9,393.5L197.3,393.5L197.3,408.7L177.8,408.7L164.4,408.1L163.8,407.4L161,401.4L159.4,400.8L159.9,399.4L159.9,397.4L158.8,394.1L158.8,388.2L158.8,382.9L158.8,374.9L158.8,359.6L163.3,359.6Z"><title>Butler County: 1</title></path><path class="b2" d="M272,127.4L282.1,127.4L282.6,128.7L292.7,128.7L292.7,129.4L293.2,135.4L285.4,135.4L285.4,136.7L282.6,136.7L282.6,140L286.5,140L286.5,145.3L285.4,145.3L284.8,146.7L283.2,147.3L283.2,148.6L282.1,148.6L282.1,163.2L280.4,163.2L280.4,163.9L279.3,165.2L276.5,165.2L275.9,166.6L272.6,166.6L272.6,168.6L270.9,169.2L270.9,173.9L266.4,174.5L266.4,171.2L248,170.5L248,169.2L246.4,167.9L244.7,165.9L242.5,161.3L240.2,159.9L239.1,159.3L232.4,159.9L232.4,158.6L233,157.3L233,155.9L238,152.6L238.6,152L240.2,150.6L241.9,150.6L242.5,150L242.5,148.6L241.3,145.3L241.3,142.7L240.8,142L242.5,140.7L242.5,140L245.3,140L245.3,138.7L247.5,138.7L247.5,137.4L248.6,137.4L248.6,135.4L249.7,135.4L250.3,133.4L251.4,132.7L251.4,132.1L253.6,132.1L254.2,134.1L257,134.1L257.5,130.1L259.2,130.1L259.2,129.4L262,129.4L262,127.4L267,127.4L267.6,128.7L272,128.7L272,127.4Z"><title>Calhoun County: 3</title></path><path class="b1" d="M286.5,226.9L321.1,226.9L325.6,254.1L325.6,255.5L327.8,257.5L330,263.4L331.7,266.1L331.7,268.1L316.1,268.1L315.5,269.4L304.9,269.4L304.4,268.7L303.8,268.7L303.8,267.4L302.1,268.1L302.1,269.4L298.2,269.4L297.7,268.7L296,268.7L295.4,269.4L289.3,269.4L288.8,268.7L287.6,268.7L287.6,269.4L286.5,270.1L286.5,226.9Z"><title>Chambers County: 1</title></path><path class="b0" d="M298.8,92.9L302.7,114.1L304.9,128.1L295.4,127.4L295.4,128.7L292.7,129.4L292.7,128.7L282.6,128.7L282.1,127.4L272,127.4L272.6,125.4L270.9,120.1L267.6,113.5L267,112.8L267.6,108.8L267.6,108.2L265.9,108.2L265.3,109.5L264.2,109.5L263.1,109.5L263.1,107.5L263.7,100.9L259.2,100.9L259.2,99.5L263.1,98.9L263.1,96.9L264.8,96.9L278.7,84.3L278.7,81.6L279.3,80.3L281.5,81L282.6,79.6L286,75L287.6,73L288.2,71.7L286.5,66.4L284.3,66.4L284.3,65L286.5,61.1L288.2,59.1L289.9,55.8L289.9,53.8L291.5,51.8L293.2,55.8L298.8,92.9Z"><title>Cherokee County: 0</title></path><path class="b2" d="M196.7,235.6L197.3,238.9L197.8,240.2L197.8,241.5L197.8,246.2L198.4,248.8L200.1,251.5L201.8,252.8L203.4,253.5L203.4,254.8L203.4,256.8L204,259.4L206.8,261.4L207.9,262.8L210.1,268.1L206.2,267.4L206.2,273.4L178.9,272.7L178.9,278L158.3,278L147.7,278L147.7,258.1L161.6,257.5L161,234.9L161.6,230.3L166.6,229.6L166.6,230.3L188.4,230.9L187.8,232.2L188.9,233.6L192.3,234.9L193.9,235.6L196.7,235.6Z"><title>Chilton County: 4</title></path><path class="b3" d="M60.1,319.2L61.2,320.5L60.7,321.8L59.5,321.8L58.4,321.1L57.9,320.5L55.1,320.5L51.2,321.1L51.7,323.1L52.8,330.4L52.3,335.7L50.6,338.4L48.4,339.7L47.8,340.4L48.4,344.4L47.3,346.4L45.6,346.4L43.4,346.4L41.7,347.7L41.1,349.7L41.1,353L43.4,354.3L42.8,353.7L43.9,353L45.6,353.7L46.2,355L46.2,357L45.6,358.3L43.4,359.6L42.8,359.6L42.8,360.3L45.6,362.3L47.3,362.3L48.4,362.9L47.8,363.6L45.6,364.3L41.7,364.9L41.1,366.3L40,368.9L37.2,370.9L36.7,373.6L35,374.9L38.9,382.2L41.7,382.2L42.2,382.9L43.4,384.8L43.4,389.5L7.1,390.2L6,367.6L10.5,329.1L10.5,319.2L60.1,319.2Z"><title>Choctaw County: 9</title></path><path class="b4" d="M46.2,355L85.2,355.6L85.2,368.9L90.2,368.9L90.8,374.2L101.9,374.2L101.9,375.6L100.3,375.6L99.7,388.8L95.2,388.8L95.2,406.1L93,407.4L90.8,409.4L90.8,410.1L95.8,414.7L96.9,416L96.3,418L94.7,421.3L91.9,422.7L89.1,421.3L86.3,421.3L84.1,423.3L81.3,424L80.7,426.6L80.7,429.3L80.2,430.6L79.6,431.3L76.3,428L74.6,431.9L75.2,435.9L74.6,435.3L72.4,434.6L71.8,434.6L71.8,435.3L73.5,437.9L72.9,438.6L71.8,438.6L70.1,438.6L69,440.6L69,441.9L68.5,442.6L66.8,442.6L68.5,445.2L67.9,446.5L65.1,446.5L64.6,447.9L65.7,448.5L66.2,449.2L65.7,449.9L64.6,449.9L64.6,451.9L64,453.2L62.9,451.9L61.8,451.9L60.1,453.2L59,453.2L58.4,453.8L56.8,453.2L55.6,453.2L55.6,451.9L55.1,451.2L58.4,449.2L58.4,446.5L59,443.2L58.4,442.6L55.1,439.9L57.3,437.9L57.3,436.6L56.8,433.9L56.8,433.3L59,433.9L59.5,433.3L59.5,431.3L60.7,430.6L61.8,431.3L62.9,431.9L62.9,430L63.4,427.3L63.4,426.6L61.8,425.3L58.4,426.6L57.9,426.6L57.9,425.3L59,424L61.2,422.7L61.2,421.3L61.8,419.3L61.2,417.4L61.8,415.4L61.8,412L60.1,410.1L57.3,408.1L51.7,406.1L48.4,403.4L49.5,402.8L50.1,401.4L49.5,401.4L46.7,401.4L44.5,400.8L44.5,399.4L44.5,397.4L43.9,394.1L43.9,392.8L43.4,389.5L43.4,384.8L42.2,382.9L41.7,382.2L38.9,382.2L35,374.9L36.7,373.6L37.2,370.9L40,368.9L41.1,366.3L41.7,364.9L45.6,364.3L47.8,363.6L48.4,362.9L47.3,362.3L45.6,362.3L42.8,360.3L42.8,359.6L43.4,359.6L45.6,358.3L46.2,357L46.2,355Z"><title>Clarke County: 16</title></path><path class="b1" d="M245.8,228.3L245.3,226.9L230.2,226.3L230.7,215.7L236.3,216.3L236.9,205.7L249.2,205.7L249.2,193.8L252.5,193.8L253.1,192.4L254.2,192.4L254.2,185.8L256.4,185.8L256.4,181.2L261.4,181.8L261.4,182.5L259.7,182.5L259.7,183.8L258.1,183.8L258.1,184.5L267.6,184.5L268.1,183.1L269.2,183.1L270.9,181.2L282.1,181.8L282.1,199.1L283.7,199.1L283.7,201.7L282.1,201.7L282.1,212.3L282.6,213L282.6,215.7L282.1,215.7L281.5,226.3L249.7,226.3L249.7,227.6L245.8,228.3Z"><title>Clay County: 1</title></path><path class="b1" d="M310.5,162.6L313.8,181.8L282.1,181.8L270.9,181.2L269.2,183.1L268.1,183.1L267.6,184.5L258.1,184.5L258.1,183.8L259.7,183.8L259.7,182.5L261.4,182.5L261.4,181.8L267,175.8L266.4,174.5L270.9,173.9L270.9,169.2L272.6,168.6L272.6,166.6L275.9,166.6L276.5,165.2L279.3,165.2L280.4,163.9L280.4,163.2L282.1,163.2L282.1,148.6L283.2,148.6L283.2,147.3L284.8,146.7L285.4,145.3L286.5,145.3L286.5,140L282.6,140L282.6,136.7L285.4,136.7L285.4,135.4L293.2,135.4L292.7,129.4L295.4,128.7L295.4,127.4L304.9,128.1L306,134.1L310.5,162.6Z"><title>Cleburne County: 1</title></path><path class="b2" d="M231.9,399.4L267,399.4L267,448.5L227.4,449.2L227.4,420L227.4,409.4L230.7,409.4L230.7,408.7L231.9,408.7L231.9,399.4Z"><title>Coffee County: 5</title></path><path class="b1" d="M99.1,57.1L37.8,55.8L41.7,19.3L45.6,18.6L47.8,19.3L51.7,20.6L55.1,22.6L57.3,25.2L59,27.9L59,30.5L64,34.5L66.2,36.5L70.1,38.5L74,38.5L79.1,34.5L80.2,33.2L83.5,32.5L84.6,32.5L85.8,30.5L90.2,29.9L90.8,28.6L93,27.9L99.1,27.9L103,29.2L105.8,29.9L108.1,30.5L108.1,33.2L107.5,38.5L106.9,41.2L106.4,43.8L106.9,46.5L106.9,47.8L105.8,48.5L103.6,47.8L102.5,48.5L102.5,49.8L101.9,51.8L99.7,51.8L99.7,53.1L99.7,55.8L99.1,57.1Z"><title>Colbert County: 2</title></path><path class="b2" d="M107.5,440.6L113.1,434.6L115.3,433.3L122,423.3L124.8,420.7L128.1,418.7L130.4,416L133.2,410.1L134.3,406.1L136.5,401.4L137.1,400.1L136.5,398.1L136.5,394.8L141.5,394.1L144.3,391.5L144.3,388.2L145.4,386.8L149.3,386.8L155.5,382.9L158.8,382.9L158.8,388.2L158.8,394.1L159.9,397.4L159.9,399.4L159.4,400.8L161,401.4L163.8,407.4L164.4,408.1L177.8,408.7L178.3,416L181.7,418.7L182.8,421.3L182.2,424L182.2,426.6L180.6,428.6L178.9,430L178.9,448.5L177.2,448.5L176.1,447.9L175.5,447.2L173.9,447.2L172.7,446.5L173.3,439.9L107.5,440.6Z"><title>Conecuh County: 5</title></path><path class="b0" d="M196.7,235.6L197.3,233.6L197.8,229.6L198.4,228.3L199,226.9L200.1,226.3L230.2,226.3L245.3,226.9L245.8,228.3L245.8,268.1L216.2,267.4L215.7,266.1L214.6,266.1L214.6,267.4L210.1,268.1L207.9,262.8L206.8,261.4L204,259.4L203.4,256.8L203.4,254.8L203.4,253.5L201.8,252.8L200.1,251.5L198.4,248.8L197.8,246.2L197.8,241.5L197.8,240.2L197.3,238.9L196.7,235.6Z"><title>Coosa County: 0</title></path><path class="b2" d="M178.3,469.8L178.9,448.5L178.9,430L180.6,428.6L182.2,426.6L182.2,424L182.8,421.3L181.7,418.7L178.3,416L177.8,408.7L197.3,408.7L207.3,408.7L207.3,416.7L210.1,415.4L212.9,412.7L216.2,409.4L219,408.7L219,417.4L220.7,418L220.7,419.3L227.4,420L227.4,449.2L227.4,469.8L209,469.8L178.3,469.8Z"><title>Covington County: 4</title></path><path class="b0" d="M197.3,408.7L197.3,393.5L202.9,393.5L202.9,359.6L207.3,358.3L207.3,348.4L216.8,347.7L217.9,358.3L228.5,359.6L229.1,362.9L230.2,368.3L229.1,369.6L229.1,371.6L228.5,374.2L227.4,378.2L227.4,379.5L232.4,379.5L232.4,394.8L229.6,399.4L231.9,399.4L231.9,408.7L230.7,408.7L230.7,409.4L227.4,409.4L227.4,420L220.7,419.3L220.7,418L219,417.4L219,408.7L216.2,409.4L212.9,412.7L210.1,415.4L207.3,416.7L207.3,408.7L197.3,408.7Z"><title>Crenshaw County: 0</title></path><path class="b0" d="M153.8,139.4L150.4,137.4L149.9,135.4L142.1,135.4L141.5,134.7L142.1,132.1L141.5,132.1L139.3,129.4L139.3,128.7L138.7,123.4L138.7,88.9L139.3,86.3L190.6,87.6L200.6,87.6L201.2,88.9L202.9,89.6L202.9,92.3L200.1,92.3L199,92.3L197.3,93.6L196.2,94.9L195.6,96.2L193.9,97.6L193.9,100.9L193.4,102.2L190,105.5L190,106.8L186.1,108.8L185,109.5L183.9,112.2L180.6,112.2L180.6,114.8L178.9,118.8L177.2,119.5L176.1,122.1L174.4,122.8L172.7,124.1L171.6,126.8L167.7,129.4L166.1,128.7L164.9,129.4L164.9,130.1L163.8,130.7L161.6,130.7L160.5,132.1L159.9,132.1L158.3,133.4L158.3,136L158.3,137.4L156.6,137.4L155.5,137.4L153.8,139.4Z"><title>Cullman County: 0</title></path><path class="b3" d="M272,399.4L302.7,399.4L302.7,435.3L302.7,437.9L297.1,438.6L297.1,441.2L291,440.6L289.3,439.9L287.1,439.9L286,438.6L282.6,437.9L282.1,438.6L279.3,439.9L276.5,442.6L277,443.9L275.9,445.2L276.5,446.5L275.4,446.5L274.8,448.5L267,448.5L267,399.4L272,399.4Z"><title>Dale County: 7</title></path><path class="b4" d="M158.3,278L158.3,281.3L158.3,283.3L158.8,286.6L159.4,291.3L159.9,294.6L161.6,297.9L163.3,301.9L163.8,303.9L165.5,304.6L166.1,305.9L166.1,308.5L166.6,309.9L167.7,312.5L167.7,314.5L165.5,315.2L164.4,316.5L163.8,317.2L163.8,319.2L165.5,319.2L165.5,319.8L163.8,321.1L163.3,323.1L166.1,325.8L168.8,326.5L169.4,327.8L168.8,328.4L158.8,328.4L158.8,348.4L134.3,348.4L133.7,347.7L133.2,346.4L131.5,344.4L129.8,343.7L125.9,341.1L126.5,338.4L120.3,334.4L119.8,332.4L118.7,331.8L115.9,331.1L114.7,330.4L113.6,327.1L112.5,325.8L109.2,324.5L108.6,323.8L106.9,323.1L104.7,323.1L104.7,319.8L110.3,319.2L109.7,299.3L141,299.3L141.5,294.6L142.1,292.6L142.6,290L144.3,288L147.1,286L147.1,282.7L147.1,280.7L147.7,279.4L147.7,278L158.3,278Z"><title>Dallas County: 12</title></path><path class="b1" d="M259.2,99.5L236.9,98.9L236.9,78.3L236.9,74.3L237.4,73L240.2,69.7L242.5,68.4L245.3,68.4L247.5,68.4L249.7,65.7L252.5,65L257.5,59.7L265.9,52.4L268.7,49.1L269.2,46.5L271.5,45.1L278.2,38.5L282.1,33.2L283.2,29.9L283.2,26.6L287.1,25.9L291.5,51.8L289.9,53.8L289.9,55.8L288.2,59.1L286.5,61.1L284.3,65L284.3,66.4L286.5,66.4L288.2,71.7L287.6,73L286,75L282.6,79.6L281.5,81L279.3,80.3L278.7,81.6L278.7,84.3L264.8,96.9L263.1,96.9L263.1,98.9L259.2,99.5Z"><title>DeKalb County: 1</title></path><path class="b3" d="M206.2,306.6L206.2,273.4L206.2,267.4L210.1,268.1L214.6,267.4L214.6,266.1L215.7,266.1L216.2,267.4L245.8,268.1L257.5,268.1L258.1,268.1L257,270.7L256.4,274L257,277.4L257.5,280.7L259.2,287.3L258.1,290.6L257.5,292.6L258.1,295.9L259.7,297.9L260.3,299.3L260.3,299.9L257.5,301.9L255.3,301.9L254.2,301.9L251.9,301.9L250.3,301.2L248.6,301.2L247.5,301.9L246.4,303.9L244.1,305.9L242.5,307.2L238.6,305.9L235.2,304.6L232.4,303.9L230.2,303.9L228.5,303.9L229.1,301.9L226.3,299.9L225.2,297.3L222.9,297.3L220.7,297.3L219,297.9L217.4,297.9L216.8,299.3L216.8,304.6L216.2,305.9L214.6,304.6L212.9,303.9L212.3,304.6L211.8,305.9L210.7,305.9L209,305.9L206.2,306.6Z"><title>Elmore County: 6</title></path><path class="b1" d="M178.3,469.8L169.4,469.8L132,469.8L90.8,469.8L90.2,441.9L91.3,441.9L93.6,442.6L94.7,443.2L96.9,443.2L102.5,440.6L107.5,440.6L173.3,439.9L172.7,446.5L173.9,447.2L175.5,447.2L176.1,447.9L177.2,448.5L178.9,448.5L178.3,469.8Z"><title>Escambia County: 1</title></path><path class="b0" d="M259.2,99.5L259.2,100.9L263.7,100.9L263.1,107.5L263.1,109.5L264.2,109.5L265.3,109.5L265.9,108.2L267.6,108.2L267.6,108.8L267,112.8L267.6,113.5L270.9,120.1L272.6,125.4L272,127.4L272,128.7L267.6,128.7L267,127.4L262,127.4L262,129.4L259.2,129.4L259.2,130.1L257.5,130.1L257,134.1L254.2,134.1L253.6,132.1L251.4,132.1L251.4,132.7L250.3,133.4L249.7,135.4L248.6,135.4L248.6,137.4L247.5,137.4L247.5,138.7L245.3,138.7L245.3,140L242.5,140L242.5,140.7L240.8,142L240.8,138.7L239.7,138.7L238,138.7L236.9,137.4L236.3,134.7L234.7,133.4L233,133.4L232.4,132.7L232.4,132.1L230.7,130.1L230.7,128.1L227.4,124.1L226.3,123.4L225.7,123.4L222.4,126.1L219.6,124.1L217.9,124.1L216.2,126.1L214.6,129.4L212.9,128.7L211.8,128.7L212.3,127.4L215.1,122.8L215.1,121.4L215.7,116.1L216.2,113.5L217.4,112.2L228.5,100.2L236.3,100.2L236.9,98.9L259.2,99.5Z"><title>Etowah County: 0</title></path><path class="b0" d="M57.3,132.7L88.5,132.7L88.5,137.4L99.1,137.4L99.1,158.6L109.7,158.6L109.7,168.6L88.5,167.9L88.5,171.2L85.2,171.2L84.6,179.2L68.5,179.2L56.8,179.2L57.3,132.7Z"><title>Fayette County: 0</title></path><path class="b0" d="M37.8,55.8L99.1,57.1L98.6,88.3L88.5,87.6L34.4,86.9L36.1,69.7L37.8,55.8Z"><title>Franklin County: 0</title></path><path class="b1" d="M296,469.8L293.8,469.8L242.5,469.8L227.4,469.8L227.4,449.2L267,448.5L274.8,448.5L296.6,447.9L296,469.8Z"><title>Geneva County: 1</title></path><path class="b3" d="M68.5,221L68.5,226.9L69.6,226.9L69.6,236.2L81.3,236.9L81.8,237.6L80.7,239.5L80.2,240.2L80.2,241.5L77.9,240.9L77.4,242.2L79.1,244.2L77.4,245.5L76.3,245.5L75.2,246.8L76.3,248.2L76.8,249.5L75.7,250.2L72.9,250.2L71.2,250.8L69.6,252.8L69.6,255.5L70.1,258.1L70.1,260.8L68.5,263.4L66.2,264.1L64.6,264.8L64.6,266.1L65.7,266.1L69,266.1L70.1,266.7L70.7,267.4L69.6,268.7L69,270.7L69.6,271.4L71.8,271.4L72.9,274L73.5,274.7L73.5,276.7L75.7,277.4L76.8,279.4L77.9,280L76.3,280.7L74.6,280L72.4,280L71.8,280.7L71.8,282.7L74,283.3L76.8,283.3L77.4,284L77.9,286L76.8,286.6L76.3,288.6L75.2,288.6L74,287.3L73.5,288.6L72.9,290L72.9,292.6L71.8,293.9L70.7,292.6L69.6,291.3L68.5,291.3L67.9,292.6L66.2,291.3L64,284.7L64.6,284L65.7,284L68.5,284.7L68.5,282.7L67.9,281.3L64.6,280.7L62.3,280.7L60.1,280L59,280L54.5,283.3L50.1,284L47.3,282.7L45.6,280.7L45.6,280L47.3,279.4L48.4,275.4L46.7,274L44.5,275.4L42.2,275.4L41.1,274L41.7,272.7L44.5,272.7L45.6,270.7L42.2,267.4L42.8,266.1L43.9,264.8L45.6,264.8L46.2,264.8L46.7,262.8L46.7,261.4L44.5,261.4L42.8,261.4L40,259.4L38.9,258.1L37.2,259.4L35.6,258.1L35.6,256.8L36.7,255.5L34.4,250.2L32.8,248.8L32.8,247.5L34.4,246.8L36.1,246.8L36.1,245.5L35,243.5L37.2,243.5L37.2,242.9L36.7,241.5L35,240.2L35.6,238.9L36.1,236.2L38.3,234.2L40.6,232.9L42.8,233.6L45.6,232.2L47.3,232.9L48.9,233.6L50.1,232.9L50.1,232.2L49.5,230.3L54,229.6L55.1,228.3L56.8,226.3L60.1,225.6L62.9,223L68.5,221Z"><title>Greene County: 8</title></path><path class="b4" d="M109.7,238.9L109.2,253.5L109.2,258.1L104.7,259.4L104.7,279.4L99.7,279.4L99.7,299.3L79.6,299.3L79.6,293.9L71.8,293.9L72.9,292.6L72.9,290L73.5,288.6L74,287.3L75.2,288.6L76.3,288.6L76.8,286.6L77.9,286L77.4,284L76.8,283.3L74,283.3L71.8,282.7L71.8,280.7L72.4,280L74.6,280L76.3,280.7L77.9,280L76.8,279.4L75.7,277.4L73.5,276.7L73.5,274.7L72.9,274L71.8,271.4L69.6,271.4L69,270.7L69.6,268.7L70.7,267.4L70.1,266.7L69,266.1L65.7,266.1L64.6,266.1L64.6,264.8L66.2,264.1L68.5,263.4L70.1,260.8L70.1,258.1L69.6,255.5L69.6,252.8L71.2,250.8L72.9,250.2L75.7,250.2L76.8,249.5L76.3,248.2L75.2,246.8L76.3,245.5L77.4,245.5L79.1,244.2L77.4,242.2L77.9,240.9L80.2,241.5L80.2,240.2L80.7,239.5L81.8,237.6L109.7,238.9Z"><title>Hale County: 15</title></path><path class="b2" d="M302.7,435.3L302.7,399.4L302.7,388.2L322.8,388.2L323.3,384.8L325,382.9L326.7,382.2L329.5,379.5L331.1,379.5L331.1,380.9L331.7,386.2L332.8,391.5L336.7,399.4L338.4,406.1L338.4,410.1L336.2,415.4L336.2,419.3L335,423.3L335,431.3L334.5,435.9L302.7,435.3Z"><title>Henry County: 3</title></path><path class="b0" d="M342.8,471.1L296,469.8L296.6,447.9L274.8,448.5L275.4,446.5L276.5,446.5L275.9,445.2L277,443.9L276.5,442.6L279.3,439.9L282.1,438.6L282.6,437.9L286,438.6L287.1,439.9L289.3,439.9L291,440.6L297.1,441.2L297.1,438.6L302.7,437.9L302.7,435.3L334.5,435.9L332.2,437.9L332.2,441.2L333.4,448.5L333.4,450.5L335.6,454.5L340.1,457.8L340.6,459.8L341.2,461.8L341.2,466.4L342.8,470.4L342.8,471.1Z"><title>Houston County: 0</title></path><path class="b0" d="M216.8,8.7L261.4,9.3L284.8,10L287.1,25.9L283.2,26.6L283.2,29.9L282.1,33.2L278.2,38.5L271.5,45.1L269.2,46.5L268.7,49.1L265.9,52.4L257.5,59.7L252.5,65L249.7,65.7L247.5,68.4L245.3,68.4L242.5,68.4L240.2,69.7L239.1,67.7L238,65L238.6,63.7L238,63.1L236.9,62.4L235.2,61.7L232.4,62.4L231.9,59.1L232.4,56.4L232.4,53.8L217.4,54.4L212.3,49.8L212.9,38.5L214.6,37.2L215.1,35.2L214.6,32.5L214.6,29.9L215.1,28.6L215.7,26.6L215.1,23.3L214.6,21.3L214.6,20.6L215.7,19.9L216.2,18.6L215.1,15.3L215.7,14L217.9,14.6L219.6,14.6L220.7,16L221.8,17.3L222.4,16.6L221.8,15.3L220.2,13.3L217.4,10.6L216.8,8.7Z"><title>Jackson County: 0</title></path><path class="b1" d="M191.7,149.3L194.5,149.3L194.5,152L195.6,152.6L195.6,154.6L196.7,155.3L196.7,162.6L195.1,163.2L195.1,164.6L193.9,165.2L193.9,166.6L193.4,167.2L193.4,172.5L195.1,173.2L195.1,173.9L196.2,174.5L196.7,175.8L196.2,177.2L192.3,179.2L187.8,183.1L187.3,184.5L185.6,187.1L182.8,185.8L181.7,185.8L180,186.5L176.1,190.4L174.4,191.1L172.7,192.4L170.5,193.1L170.5,195.1L167.2,197.7L164.9,197.7L164.9,199.7L163.8,200.4L161.6,199.7L158.3,203.1L154.3,207L152.7,208.4L149.9,209L147.1,210.3L143.8,210.3L144.3,208.4L142.6,208.4L142.1,206.4L138.7,205.7L138.2,204.4L135.9,203.7L135.9,201.7L133.2,201.7L133.2,199.1L131.5,199.1L130.9,197.1L129.2,197.1L128.7,195.8L127.6,195.8L127,192.4L126.5,192.4L125.9,189.8L124.8,189.8L124.8,189.1L122.6,189.1L122,187.8L120.9,187.1L120.3,185.8L118.7,185.8L118.7,183.8L117.5,183.8L117.5,182.5L118.1,181.8L118.7,181.8L120.9,181.8L122,183.1L123.1,183.1L124.2,182.5L123.1,181.2L124.2,180.5L125.3,181.2L125.9,180.5L125.3,179.2L124.2,179.2L124.2,177.8L124.2,177.2L125.3,176.5L126.5,177.8L127.6,177.8L128.1,175.2L129.2,175.2L129.8,169.9L132.6,169.9L132.6,167.2L135.9,167.2L135.9,165.2L141.5,165.2L142.1,162.6L144.3,162.6L144.3,158.6L147.1,158.6L147.1,154L147.7,152.6L148.2,152.6L148.2,148L149.9,148L149.9,147.3L153.8,146.7L154.3,145.3L154.9,145.3L155.5,145.3L158.3,144L160.5,140L175.5,140.7L185.6,149.3L191.7,149.3Z"><title>Jefferson County: 1</title></path><path class="b0" d="M27.7,154L32.2,116.1L52.8,116.1L52.8,118.8L57.9,119.5L57.3,132.7L56.8,179.2L25.5,177.8L27.7,154Z"><title>Lamar County: 0</title></path><path class="b1" d="M41.7,19.3L39.5,18.6L36.1,13.3L33.9,8L34.4,6L53.4,6L90.8,6.7L127.6,7.3L129.8,7.3L129.8,27.2L129.2,29.2L126.5,31.9L124.8,31.9L124.8,35.2L122,35.2L120.3,35.2L118.1,32.5L116.4,30.5L114.2,29.9L110.8,29.9L108.1,30.5L105.8,29.9L103,29.2L99.1,27.9L93,27.9L90.8,28.6L90.2,29.9L85.8,30.5L84.6,32.5L83.5,32.5L80.2,33.2L79.1,34.5L74,38.5L70.1,38.5L66.2,36.5L64,34.5L59,30.5L59,27.9L57.3,25.2L55.1,22.6L51.7,20.6L47.8,19.3L45.6,18.6L41.7,19.3Z"><title>Lauderdale County: 1</title></path><path class="b2" d="M98.6,88.3L99.1,57.1L99.7,55.8L99.7,53.1L99.7,51.8L101.9,51.8L102.5,49.8L102.5,48.5L103.6,47.8L105.8,48.5L106.9,47.8L106.9,46.5L106.4,43.8L106.9,41.2L107.5,38.5L108.1,33.2L108.1,30.5L110.8,29.9L114.2,29.9L116.4,30.5L118.1,32.5L120.3,35.2L122,35.2L124.8,35.2L128.1,34.5L129.8,34.5L138.2,41.2L140.4,43.8L139.3,86.3L138.7,88.9L98.6,88.3Z"><title>Lawrence County: 3</title></path><path class="b3" d="M345.6,297.3L341.7,297.3L340.1,297.3L340.6,299.3L311.6,299.9L310.5,300.6L309.9,301.9L309.9,304.6L301,305.9L301,295.9L297.1,295.9L280.4,288.6L279.8,287.3L276.5,286.6L276.5,286L276.5,271.4L284.8,271.4L284.8,269.4L286.5,270.1L287.6,269.4L287.6,268.7L288.8,268.7L289.3,269.4L295.4,269.4L296,268.7L297.7,268.7L298.2,269.4L302.1,269.4L302.1,268.1L303.8,267.4L303.8,268.7L304.4,268.7L304.9,269.4L315.5,269.4L316.1,268.1L331.7,268.1L332.2,270.1L334.5,276.7L334.5,281.3L337.8,284.7L339.5,290.6L343.4,293.9L345.6,297.3Z"><title>Lee County: 6</title></path><path class="b2" d="M129.8,7.3L166.6,8L171.1,8.7L171.1,59.7L167.7,59.1L164.4,58.4L158.3,55.1L147.7,48.5L144.3,46.5L140.4,43.8L138.2,41.2L129.8,34.5L128.1,34.5L124.8,35.2L124.8,31.9L126.5,31.9L129.2,29.2L129.8,27.2L129.8,7.3Z"><title>Limestone County: 4</title></path><path class="b1" d="M163.3,359.6L162.7,349L158.8,348.4L158.8,328.4L168.8,328.4L169.4,327.8L168.8,326.5L166.1,325.8L163.3,323.1L163.8,321.1L165.5,319.8L165.5,319.2L163.8,319.2L163.8,317.2L164.4,316.5L165.5,315.2L167.7,314.5L167.7,315.8L168.8,317.2L169.4,317.8L171.1,317.2L171.1,315.2L172.2,312.5L171.6,310.5L171.1,308.5L172.2,307.9L173.9,308.5L175,307.9L177.2,308.5L177.8,311.2L180.6,312.5L181.7,312.5L182.8,309.9L183.3,307.2L185,306.6L186.1,306.6L186.7,307.9L187.3,309.9L189.5,311.2L190.6,310.5L192.8,311.2L193.9,312.5L195.1,313.9L197.8,314.5L199.5,315.8L199.5,319.2L200.1,321.1L201.2,322.5L203.4,323.1L205.1,323.8L206.8,325.8L207.3,327.1L207.3,348.4L207.3,358.3L202.9,359.6L163.3,359.6Z"><title>Lowndes County: 2</title></path><path class="b1" d="M301,305.9L301.6,327.1L261.4,327.1L260.3,325.8L259.2,320.5L257.5,319.8L256.4,319.8L256.4,321.1L255.3,322.5L251.9,319.2L248,312.5L246.4,310.5L244.1,305.9L246.4,303.9L247.5,301.9L248.6,301.2L250.3,301.2L251.9,301.9L254.2,301.9L255.3,301.9L257.5,301.9L260.3,299.9L260.3,299.3L259.7,297.9L266.4,297.3L266.4,287.3L274.3,287.3L274.3,286L276.5,286L276.5,286.6L279.8,287.3L280.4,288.6L297.1,295.9L301,295.9L301,305.9Z"><title>Macon County: 1</title></path><path class="b2" d="M171.1,59.7L171.1,8.7L216.8,8.7L217.4,10.6L220.2,13.3L221.8,15.3L222.4,16.6L221.8,17.3L220.7,16L219.6,14.6L217.9,14.6L215.7,14L215.1,15.3L216.2,18.6L215.7,19.9L214.6,20.6L214.6,21.3L215.1,23.3L215.7,26.6L215.1,28.6L214.6,29.9L214.6,32.5L215.1,35.2L214.6,37.2L212.9,38.5L212.3,49.8L217.4,54.4L219,55.1L219,55.8L218.5,56.4L217.9,58.4L219,59.1L217.4,63.1L210.7,62.4L210.7,65L207.3,65.7L206.2,66.4L198.4,66.4L197.3,65L195.6,62.4L194.5,59.7L191.7,56.4L189.5,55.1L187.8,55.8L184.5,58.4L183.3,59.7L181.7,58.4L180.6,55.1L177.8,55.1L176.7,55.1L173.3,58.4L171.1,59.7Z"><title>Madison County: 4</title></path><path class="b5" d="M104.7,323.1L103,322.5L101.9,322.5L101.9,323.1L100.3,324.5L100.3,338.4L90.8,338.4L90.8,353.7L85.2,354.3L85.2,355.6L46.2,355L45.6,353.7L43.9,353L42.8,353.7L43.4,354.3L41.1,353L41.1,349.7L41.7,347.7L43.4,346.4L45.6,346.4L47.3,346.4L48.4,344.4L47.8,340.4L48.4,339.7L50.6,338.4L52.3,335.7L52.8,330.4L51.7,323.1L51.2,321.1L55.1,320.5L57.9,320.5L58.4,321.1L59.5,321.8L60.7,321.8L61.2,320.5L60.1,319.2L58.4,316.5L55.6,314.5L50.1,312.5L49.5,310.5L49.5,305.9L50.6,304.6L53.4,301.9L56.8,301.2L57.9,300.6L58.4,299.3L59.5,295.3L63.4,293.9L65.1,293.9L67.9,293.9L68.5,293.3L67.9,292.6L68.5,291.3L69.6,291.3L70.7,292.6L71.8,293.9L79.6,293.9L79.6,299.3L99.7,299.3L100.3,319.2L104.7,319.8L104.7,323.1Z"><title>Marengo County: 34</title></path><path class="b1" d="M57.3,132.7L57.9,119.5L52.8,118.8L52.8,116.1L32.2,116.1L32.2,114.1L34.4,86.9L88.5,87.6L88.5,122.1L88.5,132.7L57.3,132.7Z"><title>Marion County: 2</title></path><path class="b1" d="M240.2,69.7L237.4,73L236.9,74.3L236.9,78.3L236.9,98.9L236.3,100.2L228.5,100.2L217.4,112.2L216.8,110.2L215.7,109.5L214.6,107.5L209.6,101.5L202.9,92.3L202.9,89.6L201.2,88.9L200.6,87.6L190.6,87.6L190.6,76.3L192.3,68.4L194.5,59.7L195.6,62.4L197.3,65L198.4,66.4L206.2,66.4L207.3,65.7L210.7,65L210.7,62.4L217.4,63.1L219,59.1L217.9,58.4L218.5,56.4L219,55.8L219,55.1L217.4,54.4L232.4,53.8L232.4,56.4L231.9,59.1L232.4,62.4L235.2,61.7L236.9,62.4L238,63.1L238.6,63.7L238,65L239.1,67.7L240.2,69.7Z"><title>Marshall County: 1</title></path><path class="b1" d="M55.1,451.2L55.6,451.9L55.6,453.2L56.8,453.2L58.4,453.8L56.8,457.2L56.8,460.5L56.8,461.1L57.9,462.5L57.9,463.8L57.3,466.4L57.3,469.8L56.8,473.1L60.7,477.7L59,479.7L57.3,479.7L56.8,481L55.1,483L54,484.4L54.5,486.4L55.6,488.3L57.9,490.3L57.9,491.7L55.1,493L51.7,494.3L50.6,493.7L48.9,495L47.8,499L47.3,502.3L47.3,504.3L46.2,506.9L45.6,507.6L44.5,513.6L44.5,515.5L42.8,516.2L41.7,517.5L41.1,518.9L41.7,522.2L40.6,530.8L40.6,535.5L40,541.4L39.5,544.7L38.3,546.7L36.7,547.4L35.6,547.4L33.9,545.4L30.5,542.7L29.4,540.8L24.4,540.1L21.6,540.1L19.9,540.1L18.3,537.4L14.4,538.8L12.7,501.6L11.6,471.1L10.5,456.5L19.9,455.8L20.5,453.2L50.1,453.2L54,449.9L55.1,451.2Z"><title>Mobile County: 1</title></path><path class="b4" d="M101.9,374.2L130.4,374.2L132,375.6L158.8,374.9L158.8,382.9L155.5,382.9L149.3,386.8L145.4,386.8L144.3,388.2L144.3,391.5L141.5,394.1L136.5,394.8L136.5,398.1L137.1,400.1L136.5,401.4L134.3,406.1L133.2,410.1L130.4,416L128.1,418.7L124.8,420.7L122,423.3L115.3,433.3L113.1,434.6L107.5,440.6L102.5,440.6L96.9,443.2L94.7,443.2L93.6,442.6L91.3,441.9L90.2,441.9L86.3,439.9L83,437.3L81.3,435.3L79.6,435.3L75.2,435.9L74.6,431.9L76.3,428L79.6,431.3L80.2,430.6L80.7,429.3L80.7,426.6L81.3,424L84.1,423.3L86.3,421.3L89.1,421.3L91.9,422.7L94.7,421.3L96.3,418L96.9,416L95.8,414.7L90.8,410.1L90.8,409.4L93,407.4L95.2,406.1L95.2,388.8L99.7,388.8L100.3,375.6L101.9,375.6L101.9,374.2Z"><title>Monroe County: 19</title></path><path class="b0" d="M207.3,348.4L207.3,327.1L206.8,325.8L205.1,323.8L203.4,323.1L201.2,322.5L200.1,321.1L199.5,319.2L199.5,315.8L197.8,314.5L200.1,311.2L201.8,309.9L202.9,307.9L204.5,307.2L206.2,306.6L209,305.9L210.7,305.9L211.8,305.9L212.3,304.6L212.9,303.9L214.6,304.6L216.2,305.9L216.8,304.6L216.8,299.3L217.4,297.9L219,297.9L220.7,297.3L222.9,297.3L225.2,297.3L226.3,299.9L229.1,301.9L228.5,303.9L230.2,303.9L232.4,303.9L235.2,304.6L238.6,305.9L242.5,307.2L244.1,305.9L246.4,310.5L248,312.5L251.9,319.2L255.3,322.5L248,322.5L248,324.5L247.5,324.5L247.5,348.4L247.5,357L228.5,359.6L217.9,358.3L216.8,347.7L207.3,348.4Z"><title>Montgomery County: 0</title></path><path class="b1" d="M190.6,87.6L139.3,86.3L140.4,43.8L144.3,46.5L147.7,48.5L158.3,55.1L164.4,58.4L167.7,59.1L171.1,59.7L173.3,58.4L176.7,55.1L177.8,55.1L180.6,55.1L181.7,58.4L183.3,59.7L184.5,58.4L187.8,55.8L189.5,55.1L191.7,56.4L194.5,59.7L192.3,68.4L190.6,76.3L190.6,87.6Z"><title>Morgan County: 1</title></path><path class="b2" d="M147.7,258.1L147.7,278L147.7,279.4L147.1,280.7L147.1,282.7L147.1,286L144.3,288L142.6,290L142.1,292.6L141.5,294.6L141,299.3L109.7,299.3L110.3,319.2L104.7,319.8L100.3,319.2L99.7,299.3L99.7,279.4L104.7,279.4L104.7,259.4L109.2,258.1L109.2,253.5L119.8,253.5L119.8,257.5L147.7,258.1Z"><title>Perry County: 5</title></path><path class="b4" d="M68.5,179.2L68.5,221L62.9,223L60.1,225.6L56.8,226.3L55.1,228.3L54,229.6L49.5,230.3L50.1,232.2L50.1,232.9L48.9,233.6L47.3,232.9L45.6,232.2L42.8,233.6L40.6,232.9L38.3,234.2L36.1,236.2L35.6,238.9L35,240.2L19.4,240.9L23.3,206.4L25.5,177.8L56.8,179.2L68.5,179.2Z"><title>Pickens County: 11</title></path><path class="b3" d="M247.5,348.4L248,347.7L248,348.4L249.2,348.4L249.2,347.7L251.4,347L251.4,346.4L252.5,346.4L253.1,347L254.7,347.7L255.3,348.4L257,348.4L257.5,354.3L258.1,354.3L259.2,357.6L267,358.3L267,367.6L279.3,368.9L279.3,369.6L278.7,373.6L279.8,376.2L279.8,379.5L279.3,382.9L276.5,384.2L275.9,386.2L274.8,390.2L273.7,394.1L272.6,395.5L272,399.4L267,399.4L231.9,399.4L229.6,399.4L232.4,394.8L232.4,379.5L227.4,379.5L227.4,378.2L228.5,374.2L229.1,371.6L229.1,369.6L230.2,368.3L229.1,362.9L228.5,359.6L247.5,357L247.5,348.4Z"><title>Pike County: 8</title></path><path class="b1" d="M286.5,226.9L281.5,226.3L282.1,215.7L282.6,215.7L282.6,213L282.1,212.3L282.1,201.7L283.7,201.7L283.7,199.1L282.1,199.1L282.1,181.8L313.8,181.8L315.5,189.1L320.5,225.6L321.1,226.9L286.5,226.9Z"><title>Randolph County: 2</title></path><path class="b2" d="M301.6,327.1L301,305.9L309.9,304.6L309.9,301.9L310.5,300.6L311.6,299.9L340.6,299.3L340.1,297.3L341.7,297.3L345.6,297.3L345.1,300.6L346.7,305.9L346.2,311.2L344,315.8L346.7,319.2L351.8,322.5L354,325.8L351.2,327.8L349,328.4L347.3,331.8L345.1,333.8L339.5,336.4L338.4,341.1L338.4,343L338.4,345L338.4,347.7L334.5,347L334.5,346.4L333.4,346.4L332.8,347L327.2,347L322.2,341.7L319.4,341.7L319.4,340.4L321.1,339.7L318.9,337.1L302.1,337.7L301.6,327.1Z"><title>Russell County: 3</title></path><path class="b0" d="M210.7,193.1L210.1,189.1L210.1,180.5L200.1,179.8L199.5,173.9L196.2,174.5L195.1,173.9L195.1,173.2L193.4,172.5L193.4,167.2L193.9,166.6L193.9,165.2L195.1,164.6L195.1,163.2L196.7,162.6L196.7,155.3L195.6,154.6L195.6,152.6L194.5,152L194.5,149.3L191.7,149.3L191.7,145.3L195.6,145.3L200.1,145.3L201.2,143.3L203.4,142.7L205.1,142.7L209.6,137.4L211.8,136L212.9,134.7L212.9,132.1L214.6,129.4L216.2,126.1L217.9,124.1L219.6,124.1L222.4,126.1L225.7,123.4L226.3,123.4L227.4,124.1L230.7,128.1L230.7,130.1L232.4,132.1L232.4,132.7L233,133.4L234.7,133.4L236.3,134.7L236.9,137.4L238,138.7L239.7,138.7L240.8,138.7L240.8,142L241.3,142.7L241.3,145.3L242.5,148.6L242.5,150L241.9,150.6L240.2,150.6L238.6,152L238,152.6L233,155.9L233,157.3L232.4,158.6L232.4,159.9L231.3,160.6L230.7,159.9L229.6,158.6L228,157.3L226.3,157.3L225.7,158.6L226.3,159.9L229.1,160.6L230.2,161.9L230.2,164.6L229.6,166.6L228,166.6L227.4,167.9L228.5,169.2L228,169.9L226.3,169.9L225.7,171.2L225.7,172.5L227.4,174.5L226.8,175.8L225.7,177.8L224.1,179.8L223.5,181.2L222.4,181.8L220.7,181.8L219.6,181.2L218.5,181.2L217.9,183.1L215.1,187.8L214,191.1L210.7,193.1Z"><title>St. Clair County: 0</title></path><path class="b2" d="M200.1,226.3L199,226.9L198.4,228.3L197.8,229.6L197.3,233.6L196.7,235.6L193.9,235.6L192.3,234.9L188.9,233.6L187.8,232.2L188.4,230.9L166.6,230.3L166.6,229.6L161.6,230.3L161,234.9L159.4,234.2L159.4,233.6L158.3,232.9L156,232.2L152.7,228.9L152.7,227.6L151,225.6L151.6,222.3L151,221L148.2,221L147.1,220.3L147.1,219L147.1,215.7L146.5,214.3L147.1,212.3L147.1,210.3L149.9,209L152.7,208.4L154.3,207L158.3,203.1L161.6,199.7L163.8,200.4L164.9,199.7L164.9,197.7L167.2,197.7L170.5,195.1L170.5,193.1L172.7,192.4L174.4,191.1L176.1,190.4L180,186.5L181.7,185.8L182.8,185.8L185.6,187.1L187.3,184.5L187.8,183.1L192.3,179.2L196.2,177.2L196.7,175.8L196.2,174.5L199.5,173.9L200.1,179.8L210.1,180.5L210.1,189.1L210.7,193.1L211.8,194.4L212.9,195.1L212.9,197.1L211.8,199.1L211.8,200.4L211.8,202.4L212.3,203.1L211.8,204.4L207.9,206.4L206.2,205.7L205.1,206.4L205.7,208.4L204.5,209L202.9,212.3L201.8,213.7L201.2,215L199,215.7L199,217.6L201.8,223L201.8,224.3L200.1,226.3Z"><title>Shelby County: 4</title></path><path class="b2" d="M67.9,292.6L68.5,293.3L67.9,293.9L65.1,293.9L63.4,293.9L59.5,295.3L58.4,299.3L57.9,300.6L56.8,301.2L53.4,301.9L50.6,304.6L49.5,305.9L49.5,310.5L50.1,312.5L55.6,314.5L58.4,316.5L60.1,319.2L10.5,319.2L14.4,288L18.3,248.2L19.4,240.9L35,240.2L36.7,241.5L37.2,242.9L37.2,243.5L35,243.5L36.1,245.5L36.1,246.8L34.4,246.8L32.8,247.5L32.8,248.8L34.4,250.2L36.7,255.5L35.6,256.8L35.6,258.1L37.2,259.4L38.9,258.1L40,259.4L42.8,261.4L44.5,261.4L46.7,261.4L46.7,262.8L46.2,264.8L45.6,264.8L43.9,264.8L42.8,266.1L42.2,267.4L45.6,270.7L44.5,272.7L41.7,272.7L41.1,274L42.2,275.4L44.5,275.4L46.7,274L48.4,275.4L47.3,279.4L45.6,280L45.6,280.7L47.3,282.7L50.1,284L54.5,283.3L59,280L60.1,280L62.3,280.7L64.6,280.7L67.9,281.3L68.5,282.7L68.5,284.7L65.7,284L64.6,284L64,284.7L66.2,291.3L67.9,292.6Z"><title>Sumter County: 3</title></path><path class="b2" d="M210.7,193.1L214,191.1L215.1,187.8L217.9,183.1L218.5,181.2L219.6,181.2L220.7,181.8L222.4,181.8L223.5,181.2L224.1,179.8L225.7,177.8L226.8,175.8L227.4,174.5L225.7,172.5L225.7,171.2L226.3,169.9L228,169.9L228.5,169.2L227.4,167.9L228,166.6L229.6,166.6L230.2,164.6L230.2,161.9L229.1,160.6L226.3,159.9L225.7,158.6L226.3,157.3L228,157.3L229.6,158.6L230.7,159.9L231.3,160.6L232.4,159.9L239.1,159.3L240.2,159.9L242.5,161.3L244.7,165.9L246.4,167.9L248,169.2L248,170.5L266.4,171.2L266.4,174.5L267,175.8L261.4,181.8L256.4,181.2L256.4,185.8L254.2,185.8L254.2,192.4L253.1,192.4L252.5,193.8L249.2,193.8L249.2,205.7L236.9,205.7L236.3,216.3L230.7,215.7L230.2,226.3L200.1,226.3L201.8,224.3L201.8,223L199,217.6L199,215.7L201.2,215L201.8,213.7L202.9,212.3L204.5,209L205.7,208.4L205.1,206.4L206.2,205.7L207.9,206.4L211.8,204.4L212.3,203.1L211.8,202.4L211.8,200.4L211.8,199.1L212.9,197.1L212.9,195.1L211.8,194.4L210.7,193.1Z"><title>Talladega County: 4</title></path><path class="b2" d="M281.5,226.3L286.5,226.9L286.5,270.1L284.8,269.4L284.8,271.4L276.5,271.4L276.5,286L274.3,286L274.3,287.3L266.4,287.3L266.4,297.3L259.7,297.9L258.1,295.9L257.5,292.6L258.1,290.6L259.2,287.3L257.5,280.7L257,277.4L256.4,274L257,270.7L258.1,268.1L257.5,268.1L245.8,268.1L245.8,228.3L249.7,227.6L249.7,226.3L281.5,226.3Z"><title>Tallapoosa County: 4</title></path><path class="b1" d="M143.8,210.3L142.1,211L139.3,212.3L138.7,211L137.1,211L135.9,211L135.4,213L132.6,214.3L132,217.6L132,220.3L131.5,222.3L125.9,223L124.8,223L121.4,226.3L120.3,229.6L120.3,237.6L109.7,238.9L81.8,237.6L81.3,236.9L69.6,236.2L69.6,226.9L68.5,226.9L68.5,221L68.5,179.2L84.6,179.2L85.2,171.2L88.5,171.2L88.5,167.9L109.7,168.6L115.3,168.6L115.3,169.9L119.8,170.5L119.8,179.2L124.2,179.2L125.3,179.2L125.9,180.5L125.3,181.2L124.2,180.5L123.1,181.2L124.2,182.5L123.1,183.1L122,183.1L120.9,181.8L118.7,181.8L118.1,181.8L117.5,182.5L117.5,183.8L118.7,183.8L118.7,185.8L120.3,185.8L120.9,187.1L122,187.8L122.6,189.1L124.8,189.1L124.8,189.8L125.9,189.8L126.5,192.4L127,192.4L127.6,195.8L128.7,195.8L129.2,197.1L130.9,197.1L131.5,199.1L133.2,199.1L133.2,201.7L135.9,201.7L135.9,203.7L138.2,204.4L138.7,205.7L142.1,206.4L142.6,208.4L144.3,208.4L143.8,210.3Z"><title>Tuscaloosa County: 1</title></path><path class="b3" d="M138.7,123.4L139.3,128.7L139.3,129.4L141.5,132.1L142.1,132.1L141.5,134.7L142.1,135.4L149.9,135.4L150.4,137.4L153.8,139.4L153.8,140L153.8,140.7L154.9,140.7L155.5,145.3L154.9,145.3L154.3,145.3L153.8,146.7L149.9,147.3L149.9,148L148.2,148L148.2,152.6L147.7,152.6L147.1,154L147.1,158.6L144.3,158.6L144.3,162.6L142.1,162.6L141.5,165.2L135.9,165.2L135.9,167.2L132.6,167.2L132.6,169.9L129.8,169.9L129.2,175.2L128.1,175.2L127.6,177.8L126.5,177.8L125.3,176.5L124.2,177.2L124.2,177.8L124.2,179.2L119.8,179.2L119.8,170.5L115.3,169.9L115.3,168.6L109.7,168.6L109.7,158.6L99.1,158.6L99.1,137.4L88.5,137.4L88.5,132.7L88.5,122.1L138.7,123.4Z"><title>Walker County: 6</title></path><path class="b3" d="M8.2,420.7L7.1,390.2L43.4,389.5L43.9,392.8L43.9,394.1L44.5,397.4L44.5,399.4L44.5,400.8L46.7,401.4L49.5,401.4L50.1,401.4L49.5,402.8L48.4,403.4L51.7,406.1L57.3,408.1L60.1,410.1L61.8,412L61.8,415.4L61.2,417.4L61.8,419.3L61.2,421.3L61.2,422.7L59,424L57.9,425.3L57.9,426.6L58.4,426.6L61.8,425.3L63.4,426.6L63.4,427.3L62.9,430L62.9,431.9L61.8,431.3L60.7,430.6L59.5,431.3L59.5,433.3L59,433.9L56.8,433.3L56.8,433.9L57.3,436.6L57.3,437.9L55.1,439.9L58.4,442.6L59,443.2L58.4,446.5L58.4,449.2L55.1,451.2L54,449.9L50.1,453.2L20.5,453.2L19.9,455.8L10.5,456.5L8.2,420.7Z"><title>Washington County: 6</title></path><path class="b4" d="M158.8,348.4L162.7,349L163.3,359.6L158.8,359.6L158.8,374.9L132,375.6L130.4,374.2L101.9,374.2L90.8,374.2L90.2,368.9L85.2,368.9L85.2,355.6L85.2,354.3L90.8,353.7L90.8,338.4L100.3,338.4L100.3,324.5L101.9,323.1L101.9,322.5L103,322.5L104.7,323.1L106.9,323.1L108.6,323.8L109.2,324.5L112.5,325.8L113.6,327.1L114.7,330.4L115.9,331.1L118.7,331.8L119.8,332.4L120.3,334.4L126.5,338.4L125.9,341.1L129.8,343.7L131.5,344.4L133.2,346.4L133.7,347.7L134.3,348.4L158.8,348.4Z"><title>Wilcox County: 16</title></path><path class="b0" d="M88.5,87.6L98.6,88.3L138.7,88.9L138.7,123.4L88.5,122.1L88.5,87.6Z"><title>Winston County: 0</title></path></svg>
+            <div class="map-legend" aria-hidden="true">
+              <span><i class="b0"></i>0</span><span><i class="b1"></i>1–2</span><span><i class="b2"></i>3–5</span><span><i class="b3"></i>6–10</span><span><i class="b4"></i>11–20</span><span><i class="b5"></i>21+</span>
+            </div>
+            <p class="f-note">Scholar records by home county, 2001–2026: 52 of 67 counties, led by Marengo (34).</p>
+          </figure>
+          <div class="case-text">
+            <h3>25 Years of MOORES Scholars</h3>
+            <p>MOORES (Medical Opportunities and Outreach, Rural Education Scholars) supports students from rural Alabama, most from the Black Belt. Dr. Shabnam Naher and I recoded 25 years of hand-entered records into one row per student. We traced all 256 students through the Office's other pipeline programs and built a Shiny app so staff can make their own crosstabs.</p>
+            <div class="moores-stats">
+            <div class="hero-stat">
+              <div class="hero-n">33%</div>
+              <p><strong>of MOORES scholars went on to a health profession.</strong> That's 84 of 256 students, including 29 who became physicians.</p>
+            </div>
+            <div class="funnel careers">
+              <span class="label">Health careers, by field</span>
+              <ol>
+                <li title="38 of 256 students went into nursing"><span class="f-n">38</span><span class="f-label">Nursing</span><span class="f-track"><span class="f-bar" style="--w:100%"></span></span></li>
+                <li title="29 of 256 students became physicians (26 MD, 3 DO)"><span class="f-n">29</span><span class="f-label">Physician (MD or DO)</span><span class="f-track"><span class="f-bar" style="--w:76.3%"></span></span></li>
+                <li title="10 of 256 students went into pharmacy"><span class="f-n">10</span><span class="f-label">Pharmacy</span><span class="f-track"><span class="f-bar" style="--w:26.3%"></span></span></li>
+                <li title="7 of 256 students went into dentistry"><span class="f-n">7</span><span class="f-label">Dentistry</span><span class="f-track"><span class="f-bar" style="--w:18.4%"></span></span></li>
+                <li title="3 of 256 students became physician assistants"><span class="f-n">3</span><span class="f-label">Physician assistant</span><span class="f-track"><span class="f-bar" style="--w:7.9%"></span></span></li>
+              </ol>
+              <p class="f-note">Students in more than one field count in each.</p>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="proj-foot">R · R Markdown · Shiny · readxl · maps · student-level recoding</div>
+        </div>
+        </div>
+      </article>
+
+      <article class="slab proj p-half">
+        <div class="proj-top"><span class="label">Dissertation · HSLS:09</span><span class="state">Complete</span></div>
+        <div class="proj-body">
+          <h3>Which parental involvement moves STEM grades?</h3>
+          <p>Causal mediation (RMPW) on 23,000+ students followed from 9th to 12th grade, testing six parent behaviors with STEM self-efficacy as the mediator.</p>
+          <p class="finding">Parent educational aspirations had the largest direct effect (d = 0.57). None of the effects ran through self-efficacy.</p>
+        </div>
+        <div class="proj-foot">R · RMPW · sensitivity analysis</div>
+      </article>
+
+      <article class="slab proj p-half">
+        <div class="proj-top"><span class="label">Survey fairness</span><span class="state">Complete</span></div>
+        <div class="proj-body">
+          <h3>Does the questionnaire mean the same thing to everyone?</h3>
+          <p>Rasch modeling and measurement invariance testing on a federal parental involvement survey of 25,000+ families.</p>
+          <p class="finding">Flagged specific items that functioned differently across racial and socioeconomic groups.</p>
+        </div>
+        <div class="proj-foot">R · eRm · lavaan · DIF</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CODE -->
+  <section id="code">
+    <div class="sec-head">
+      <div><span class="label">Code</span><h2>Selected code</h2></div>
+      <p>Short, readable excerpts of the methods behind the projects above. Full repositories live on GitHub.</p>
+    </div>
+    <div class="slab code-wrap">
+      <div class="tabs" role="tablist" aria-label="Code samples">
+        <button role="tab" id="tab-0" aria-selected="true" aria-controls="codePanel" data-i="0">rural_trend.R</button>
+        <button role="tab" id="tab-1" aria-selected="false" aria-controls="codePanel" data-i="1">causal_forest.R</button>
+        <button role="tab" id="tab-2" aria-selected="false" aria-controls="codePanel" data-i="2">dif_invariance.R</button>
+        <button role="tab" id="tab-3" aria-selected="false" aria-controls="codePanel" data-i="3">rmpw_mediation.R</button>
+      </div>
+      <p class="code-note" id="codeNote"></p>
+      <pre class="code" id="codePanel" role="tabpanel" tabindex="0"><code class="language-r" id="codeEl"></code></pre>
+      <div class="code-foot"><span>Excerpts, trimmed for reading.</span><a class="out" href="https://github.com/NathanielHShannon" target="_blank" rel="noopener">More on GitHub <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+
+  <!-- STUDIO -->
+  <section id="studio" class="band">
+    <div class="sec-head">
+      <div><span class="label">Studio</span><h2>Paint on water</h2></div>
+      <p>The work that doesn't need a p-value. In this style of painting, pigment is floated on a thickened water bath, raked and combed into patterns, then lifted onto paper. What I love is that each pattern exists once, since lifting the sheet takes the paint with it. As Bob Ross put it, there are no mistakes, just happy little accidents.</p>
+    </div>
+
+    <div class="sub-head"><h3>Water marbling</h3><span class="label" style="color:var(--muted)">Paint on paper · tap to enlarge</span></div>
+    <div class="gallery">
+      <figure class="slab frame">
+        <button class="shot" type="button" data-full="img/photo-2082.jpg" data-alt="Close-up of a combed marbling pattern in violet, coral, and periwinkle"><img src="img/photo-2082.jpg" alt="Close-up of a combed marbling pattern in violet, coral, and periwinkle" width="1400" height="1050"></button>
+        <figcaption><b>Violet, coral &amp; periwinkle</b><span>French curl · Spanish wave</span></figcaption>
+      </figure>
+      <figure class="slab frame">
+        <button class="shot" type="button" data-full="img/photo-2081.jpg" data-alt="Close-up of a combed marbling pattern in red, green, blue, orange, and yellow"><img src="img/photo-2081.jpg" alt="Close-up of a combed marbling pattern in red, green, blue, orange, and yellow" width="1400" height="1050"></button>
+        <figcaption><b>Primaries</b><span>Combed pattern · Spanish wave</span></figcaption>
+      </figure>
+      <figure class="slab frame">
+        <button class="shot tall" type="button" data-full="img/marbling-2494.jpg" data-alt="Combed marbling pattern in lime, yellow, green, and periwinkle"><img src="img/marbling-2494.jpg" alt="Combed marbling pattern in lime, yellow, green, and periwinkle" width="1050" height="1400"></button>
+        <figcaption><b>Spring greens</b><span>French curl · Spanish wave</span></figcaption>
+      </figure>
+      <figure class="slab frame">
+        <button class="shot tall" type="button" data-full="img/marbling-2499.jpg" data-alt="Stone marbling pattern with teal and magenta drops in ochre and black veins"><img src="img/marbling-2499.jpg" alt="Stone marbling pattern with teal and magenta drops in ochre and black veins" width="1050" height="1400"></button>
+        <figcaption><b>Teal, magenta &amp; ochre</b><span>Stone pattern</span></figcaption>
+      </figure>
+    </div>
+
+    <dialog id="lightbox" aria-label="Enlarged image">
+      <img id="lbImg" src="" alt="">
+      <button type="button" id="lbClose" class="lb-close">Close</button>
+    </dialog>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="slab contact">
+      <div class="big">
+        <span class="label">Contact</span>
+        <h2>Let's measure something</h2>
+        <p>I'm looking for data science roles, especially ones built on measurement, causal inference, or survey data. I'm also glad to talk about psychometrics, research scientist, and UX or games research roles. The fastest way to reach me is email.</p>
+      </div>
+      <div class="handle">
+        <span class="label" style="color:var(--muted)">One handle, everywhere</span>
+        <div class="h-tabs" role="tablist" aria-label="Contact channel">
+          <button type="button" role="tab" aria-selected="true" data-h="0">Email</button>
+          <button type="button" role="tab" aria-selected="false" data-h="1">LinkedIn</button>
+          <button type="button" role="tab" aria-selected="false" data-h="2">GitHub</button>
+        </div>
+        <p class="h-addr" id="hAddr"><span class="h-pre" id="hPre"></span><span class="h-name">nathanielhshannon</span><span class="h-suf" id="hSuf">@gmail.com</span></p>
+        <div class="h-act">
+          <button class="copy" type="button" id="hCopy">Copy email</button>
+          <a class="out" id="hOpen" href="https://www.linkedin.com/in/nathanielhshannon/" target="_blank" rel="noopener" hidden>Open profile <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>Nathaniel H. Shannon IV, PhD</span><span>Built in concrete and moss · 2026</span></footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" data-manual></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js"></script>
+<script>
+(function () {
+  /* ---------- theme toggle ---------- */
+  var root = document.documentElement;
+  var btn = document.getElementById('themeBtn');
+  function isDark() {
+    var t = root.getAttribute('data-theme');
+    if (t) return t === 'dark';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  try { var saved = localStorage.getItem('nhs-theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
+  function applyTheme(next) {
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('nhs-theme', next); } catch (e) {}
+    drawPlot(false);
+  }
+  btn.addEventListener('click', function () {
+    var next = isDark() ? 'light' : 'dark';
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (still) { applyTheme(next); return; }
+    // Preferred: the new theme spreads in a circle from the button
+    if (document.startViewTransition) {
+      var r = btn.getBoundingClientRect();
+      var x = r.left + r.width / 2, y = r.top + r.height / 2;
+      var reach = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      var vt = document.startViewTransition(function () { applyTheme(next); });
+      vt.ready.then(function () {
+        root.animate(
+          { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + reach + 'px at ' + x + 'px ' + y + 'px)'] },
+          { duration: 750, easing: 'cubic-bezier(.65,0,.35,1)', pseudoElement: '::view-transition-new(root)' }
+        );
+      }).catch(function () {});
+      return;
+    }
+    // Fallback: a short color fade
+    root.classList.add('theme-fading');
+    applyTheme(next);
+    setTimeout(function () { root.classList.remove('theme-fading'); }, 600);
+  });
+
+  /* ---------- code samples ---------- */
+  var samples = [
+    {
+      note: '<strong>30 years of rural medical education.</strong> From the Rural Medical Scholars report: a pooled rolling average that small cohorts can\'t distort, then two tests of whether rural placement is really declining.',
+      code: [
+        '# 3-year centered rolling average, computed as a pooled rate (sum rural /',
+        '# sum graduates within the window) rather than an average of percentages --',
+        '# this weights years with more graduates more heavily, which is more',
+        '# statistically sound than treating a 2-person year the same as a 15-person year.',
+        'roll_window <- 1  # +/- 1 year = 3-year window',
+        'roll_pooled <- function(numer, denom, yrs, target_yr, half_window) {',
+        '  idx <- which(yrs >= target_yr - half_window & yrs <= target_yr + half_window)',
+        '  if (sum(denom[idx]) == 0) return(NA_real_)',
+        '  sum(numer[idx]) / sum(denom[idx])',
+        '}',
+        '',
+        'rural_by_year_raw <- rural_by_year_raw %>%',
+        '  mutate(',
+        '    roll_town   = sapply(cohort_year, function(y) roll_pooled(n_rural_town, n_grads, cohort_year, y, roll_window)),',
+        '    roll_county = sapply(cohort_year, function(y) roll_pooled(n_rural_county, n_grads, cohort_year, y, roll_window))',
+        '  )',
+        '',
+        '# Is the rural rate significantly declining?',
+        'trend_df_town <- df %>% filter(is_completed_program, grad_ms, rural_urban_tcmp %in% c("Rural", "Urban"))',
+        '',
+        'trend_by_year_town <- trend_df_town %>%',
+        '  group_by(cohort_year) %>%',
+        '  summarise(n_grads = n(), n_rural = sum(is_rural_tcmp), .groups = "drop") %>%',
+        '  arrange(cohort_year)',
+        '',
+        '# Cochran-Armitage: does the proportion rural change monotonically across cohorts?',
+        'ca_town <- prop.trend.test(trend_by_year_town$n_rural, trend_by_year_town$n_grads,',
+        '                           score = trend_by_year_town$cohort_year)',
+        '',
+        '# Logistic regression on individual scholars: same question, plus an odds ratio',
+        'logit_town      <- glm(is_rural_tcmp ~ cohort_year, data = trend_df_town, family = binomial)',
+        'logit_coef_town <- summary(logit_town)$coefficients["cohort_year", ]',
+        'exp(logit_coef_town["Estimate"] * 10)  # odds ratio per decade of cohort year'
+      ].join('\n')
+    },
+    {
+      note: '<strong>Income and depression in older adults.</strong> Lagged causal forest on HRS Waves 14 to 15. Tests for an average effect, then asks who the effect differs for.',
+      code: [
+        'library(grf)',
+        '',
+        '# W: household income above median at Wave 14 (treatment)',
+        '# Y: CES-D depression score at Wave 15 (outcome)',
+        '# X: baseline covariates measured at Wave 14',
+        'X <- model.matrix(~ age + female + educ_yrs + adl_limits + chronic_n +',
+        '                    married + cesd_w14 - 1, data = hrs)',
+        'W <- hrs$income_hi_w14',
+        'Y <- hrs$cesd_w15',
+        '',
+        'cf <- causal_forest(X, Y, W,',
+        '                    num.trees = 4000,',
+        '                    clusters  = hrs$household_id,',
+        '                    seed      = 2026)',
+        '',
+        '# Average treatment effect with doubly robust SE',
+        'average_treatment_effect(cf, target.sample = "all")',
+        '',
+        '# Is the heterogeneity real or noise?',
+        'test_calibration(cf)',
+        '',
+        '# Which covariates explain the variation in effects?',
+        'best_linear_projection(cf, A = X[, c("educ_yrs", "adl_limits")])'
+      ].join('\n')
+    },
+    {
+      note: '<strong>Does the survey mean the same thing to everyone?</strong> Rasch DIF across groups, then a configural, metric, scalar invariance sequence.',
+      code: [
+        'library(eRm)',
+        'library(lavaan)',
+        '',
+        '# --- Rasch model and DIF by SES group ---',
+        'rm_fit <- RM(items_binary)',
+        'LRtest(rm_fit, splitcr = survey$ses_group)   # global DIF test',
+        'Waldtest(rm_fit, splitcr = survey$ses_group) # item-level flags',
+        '',
+        '# --- Measurement invariance across race groups ---',
+        'model <- "',
+        '  home   =~ pi1 + pi2 + pi3 + pi4',
+        '  school =~ pi5 + pi6 + pi7 + pi8',
+        '"',
+        'configural <- cfa(model, data = survey, group = "race", estimator = "MLR")',
+        'metric     <- cfa(model, data = survey, group = "race", estimator = "MLR",',
+        '                  group.equal = "loadings")',
+        'scalar     <- cfa(model, data = survey, group = "race", estimator = "MLR",',
+        '                  group.equal = c("loadings", "intercepts"))',
+        '',
+        '# Change in CFI greater than .01 signals non-invariance',
+        'sapply(list(configural, metric, scalar), fitMeasures, "cfi.robust")'
+      ].join('\n')
+    },
+    {
+      note: '<strong>Parental involvement and STEM GPA.</strong> Ratio-of-mediator-probability weighting splits the total effect into direct and indirect parts.',
+      code: [
+        '# Treatment: parent educational aspirations (high vs. not)',
+        '# Mediator: STEM self-efficacy (high vs. not)',
+        '# Outcome:  STEM GPA',
+        '',
+        '# 1. Mediator model in each treatment arm',
+        'fit_m <- glm(self_eff_hi ~ aspir_hi + teacher_sup + peer_gpa +',
+        '               female + race + ses, family = binomial, data = hsls)',
+        '',
+        'p_m1 <- predict(fit_m, newdata = transform(hsls, aspir_hi = 1), type = "response")',
+        'p_m0 <- predict(fit_m, newdata = transform(hsls, aspir_hi = 0), type = "response")',
+        '',
+        '# 2. RMPW weight: P(M | T = 0) / P(M | T = 1), for treated cases',
+        'hsls$rmpw <- with(hsls, ifelse(self_eff_hi == 1, p_m0 / p_m1,',
+        '                                          (1 - p_m0) / (1 - p_m1)))',
+        'hsls$rmpw[hsls$aspir_hi == 0] <- 1',
+        '',
+        '# 3. Duplicate treated cases to estimate the counterfactual outcome',
+        'direct   <- weighted.mean(hsls$stem_gpa[hsls$aspir_hi == 1],',
+        '                          hsls$rmpw[hsls$aspir_hi == 1]) -',
+        '            mean(hsls$stem_gpa[hsls$aspir_hi == 0])',
+        'total    <- with(hsls, mean(stem_gpa[aspir_hi == 1]) - mean(stem_gpa[aspir_hi == 0]))',
+        'indirect <- total - direct'
+      ].join('\n')
+    }
+  ];
+  var codeEl = document.getElementById('codeEl');
+  var noteEl = document.getElementById('codeNote');
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs button'));
+  function showSample(i) {
+    tabs.forEach(function (t, j) { t.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+    noteEl.innerHTML = samples[i].note;
+    codeEl.textContent = samples[i].code;
+    if (window.Prism) { try { Prism.highlightElement(codeEl); } catch (e) {} }
+    try { localStorage.setItem('nhs-tab', String(i)); } catch (e) {}
+  }
+  tabs.forEach(function (t, i) { t.addEventListener('click', function () { showSample(i); }); });
+  var startTab = 0;
+  try { var st = parseInt(localStorage.getItem('nhs-tab'), 10); if (st >= 0 && st < samples.length) startTab = st; } catch (e) {}
+  showSample(startTab);
+
+  /* ---------- contact handle ---------- */
+  var channels = [
+    { pre: '', suf: '@gmail.com', href: null },
+    { pre: 'linkedin.com/in/', suf: '', href: 'https://www.linkedin.com/in/nathanielhshannon/' },
+    { pre: 'github.com/', suf: '', href: 'https://github.com/NathanielHShannon' }
+  ];
+  var hAddr = document.getElementById('hAddr'), hPre = document.getElementById('hPre'), hSuf = document.getElementById('hSuf');
+  var hCopy = document.getElementById('hCopy'), hOpen = document.getElementById('hOpen');
+  var hTabs = Array.prototype.slice.call(document.querySelectorAll('.h-tabs [role="tab"]'));
+  var hIdx = 0, hTimer = null;
+  function showChannel(i) {
+    hIdx = i;
+    hTabs.forEach(function (t, j) { t.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+    hAddr.classList.add('swap');
+    setTimeout(function () {
+      hPre.textContent = channels[i].pre; hSuf.textContent = channels[i].suf;
+      hAddr.classList.remove('swap');
+    }, reduceMotion() ? 0 : 200);
+    hCopy.hidden = !!channels[i].href;
+    hOpen.hidden = !channels[i].href;
+    if (channels[i].href) hOpen.href = channels[i].href;
+  }
+  function reduceMotion() { return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  function stopCycle() { if (hTimer) { clearInterval(hTimer); hTimer = null; } }
+  hTabs.forEach(function (t, i) { t.addEventListener('click', function () { stopCycle(); showChannel(i); }); });
+  // cycle slowly on its own until the visitor takes over
+  if (!reduceMotion()) {
+    hTimer = setInterval(function () { showChannel((hIdx + 1) % channels.length); }, 2800);
+    var hBox = hAddr.parentElement;
+    hBox.addEventListener('pointerenter', stopCycle);
+    hBox.addEventListener('focusin', stopCycle);
+  }
+  hCopy.addEventListener('click', function () {
+    stopCycle();
+    var txt = 'nathanielhshannon@gmail.com';
+    function selectIt() { var r = document.createRange(); r.selectNodeContents(hAddr); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function () { hCopy.textContent = 'Copied'; setTimeout(function () { hCopy.textContent = 'Copy email'; }, 1600); }, selectIt);
+    } else { selectIt(); }
+  });
+
+  /* ---------- rural programs tabs ---------- */
+  var rpTabs = Array.prototype.slice.call(document.querySelectorAll('.rp-tabs [role="tab"]'));
+  function showProgram(i, focus) {
+    rpTabs.forEach(function (t, j) {
+      var on = j === i;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      panel.setAttribute('aria-hidden', on ? 'false' : 'true');
+      panel.inert = !on;
+    });
+    if (focus) rpTabs[i].focus();
+  }
+  rpTabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { showProgram(i, false); });
+    t.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        var n = (i + (e.key === 'ArrowRight' ? 1 : rpTabs.length - 1)) % rpTabs.length;
+        showProgram(n, true);
+      }
+    });
+  });
+
+  /* ---------- lightbox ---------- */
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  document.querySelectorAll('.shot').forEach(function (s) {
+    s.addEventListener('click', function () {
+      lbImg.src = s.getAttribute('data-full');
+      lbImg.alt = s.getAttribute('data-alt');
+      if (lb.showModal) lb.showModal(); else lb.setAttribute('open', '');
+    });
+  });
+  function closeLb() { if (lb.close) lb.close(); else lb.removeAttribute('open'); }
+  document.getElementById('lbClose').addEventListener('click', closeLb);
+  lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+
+  /* ---------- lichen-style cluster plot behind the name panel ---------- */
+  // 3-4 simulated clusters that grow outward like lichen, each ringed by its 95% confidence ellipse.
+  var cv = document.getElementById('clusters');
+  var ctx = cv.getContext('2d');
+  var seed = Math.floor(Math.random() * 90000) + 1000;
+  function rng(s) { return function () { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; }
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var raf = null;
+
+  function tok(name) { return getComputedStyle(root).getPropertyValue(name).trim(); }
+
+  function drawPlot(animate) {
+    if (raf) cancelAnimationFrame(raf);
+    var r = cv.getBoundingClientRect();
+    var dpr = window.devicePixelRatio || 1;
+    cv.width = Math.max(1, Math.round(r.width * dpr));
+    cv.height = Math.max(1, Math.round(r.height * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var W = r.width, H = r.height;
+    if (W < 40 || H < 40) return;
+
+    var rand = rng(seed);
+    function gauss() { var u = 1 - rand(), v = rand(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+    var colors = [tok('--lichen'), tok('--moss'), tok('--soil'), tok('--muted')];
+    var k = rand() < .5 ? 3 : 4;
+    var unit = Math.min(W, H);
+
+    // spread cluster centers across the slab
+    var centers = [], minD = Math.max(W, H) / (k + .6);
+    for (var tries = 0; centers.length < k && tries < 500; tries++) {
+      var c = { x: W * (.1 + rand() * .8), y: H * (.12 + rand() * .76) };
+      if (centers.every(function (o) { return Math.hypot(o.x - c.x, o.y - c.y) > minD; })) centers.push(c);
+      if (tries === 300) minD *= .7;
+    }
+
+    // most of the time, one cluster is long and diagonal (strong correlation, r ~ .85-.9);
+    // sometimes a second one gets a moderate tilt
+    var strong = rand() < .8 ? Math.floor(rand() * k) : -1;
+    var moderate = rand() < .35 ? Math.floor(rand() * k) : -1;
+    var dots = [];
+    var clusters = centers.map(function (c, i) {
+      var sx, sy, th;
+      var rising = rand() < .7 ? -1 : 1; // canvas y points down, so a negative angle rises to the right
+      if (i === strong) {
+        sx = unit * (.14 + rand() * .05); sy = sx * (.16 + rand() * .08);
+        th = rising * (Math.PI / 4 + (rand() - .5) * .45);
+      } else if (i === moderate) {
+        sx = unit * (.1 + rand() * .04); sy = sx * (.4 + rand() * .15);
+        th = rising * (Math.PI / 4 + (rand() - .5) * .6);
+      } else {
+        sx = unit * (.07 + rand() * .05); sy = sx * (.75 + rand() * .25); th = rand() * Math.PI;
+      }
+      var n = 110 + Math.floor(rand() * 90), pts = [];
+      for (var j = 0; j < n; j++) {
+        var a = gauss() * sx, b = gauss() * sy;
+        var p = { x: c.x + a * Math.cos(th) - b * Math.sin(th), y: c.y + a * Math.sin(th) + b * Math.cos(th),
+                  rad: 1 + rand() * (j % 9 === 0 ? 6 : 3), ring: rand() < .18, col: colors[i] };
+        p.t = Math.hypot(a / sx, b / sy) / 3; // grows from the center outward
+        pts.push(p); dots.push(p);
+      }
+      // sample mean and covariance -> 95% ellipse (chi-square, 2 df = 5.991)
+      var mx = 0, my = 0; pts.forEach(function (q) { mx += q.x; my += q.y; }); mx /= n; my /= n;
+      var sxx = 0, syy = 0, sxy = 0;
+      pts.forEach(function (q) { sxx += (q.x - mx) * (q.x - mx); syy += (q.y - my) * (q.y - my); sxy += (q.x - mx) * (q.y - my); });
+      sxx /= n - 1; syy /= n - 1; sxy /= n - 1;
+      var tr = (sxx + syy) / 2, det = Math.sqrt(Math.pow((sxx - syy) / 2, 2) + sxy * sxy);
+      return { col: colors[i], mx: mx, my: my,
+        r1: Math.sqrt(5.991 * (tr + det)), r2: Math.sqrt(5.991 * Math.max(tr - det, 1)), ang: .5 * Math.atan2(2 * sxy, sxx - syy) };
+    });
+    dots.sort(function (a, b) { return a.t - b.t; });
+
+    function paint(t) { // t: 0..1.1 dots grow, 1.1..2 ellipses draw
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalAlpha = .28; // background texture: kept faint so the text stays readable
+      for (var j = 0; j < dots.length; j++) {
+        var p = dots[j];
+        if (p.t > t) break;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.rad, 0, Math.PI * 2);
+        if (p.ring) { ctx.strokeStyle = p.col; ctx.lineWidth = 1.5; ctx.stroke(); }
+        else { ctx.fillStyle = p.col; ctx.fill(); }
+      }
+      var e = Math.max(0, Math.min(1, (t - 1.1) / .9));
+      if (e > 0) {
+        ctx.globalAlpha = .45; ctx.lineWidth = 1.5; ctx.setLineDash([6, 5]);
+        clusters.forEach(function (cl) {
+          ctx.beginPath(); ctx.ellipse(cl.mx, cl.my, cl.r1, cl.r2, cl.ang, 0, Math.PI * 2 * e);
+          ctx.strokeStyle = cl.col; ctx.stroke();
+        });
+        ctx.setLineDash([]);
+      }
+      ctx.globalAlpha = 1;
+    }
+    if (!animate || reduce) { paint(2); return; }
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var t = Math.min(2, (ts - start) / 1100);
+      paint(t);
+      if (t < 2) raf = requestAnimationFrame(step);
+    }
+    paint(0);
+    raf = requestAnimationFrame(step);
+  }
+  // wait for the display font so the slab has its final size before the plot grows
+  var fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+  fontsReady.then(function () { drawPlot(true); }, function () { drawPlot(true); });
+  var rt;
+  window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { drawPlot(false); }, 150); });
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    if (mq.addEventListener) mq.addEventListener('change', function () { drawPlot(false); });
+  }
+})();
+</script>
+</body>
+</html>
